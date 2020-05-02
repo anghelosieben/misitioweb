@@ -80,5 +80,35 @@
     </div>
   </div>
 </footer>  
+<div id="suma">
+
+</div>
+<form action="https://www.google.com/" method="get" id="form">
+  <input type="text" >
+  <input type="submit" value="enviar" class="btn btn-success">
+</form>
+
+<script>
+  
+  //alert("holaaa!!");
+  var a=3;
+  var b=12;
+  var nombre="anghelo";
+  console.log(a, nombre);
+  var suma;
+  suma=a+b;
+  console.log(suma);
+  var idSuma=document.getElementById("suma");
+  console.log(idSuma);
+  idSuma.innerHTML="angheo";
+
+  var formulario=window.document.getElementById("form");
+  console.log(formulario);
+  formulario.addEventListener("submit",evento=>{
+    //e.preventDefault();
+    console.log(e)}
+  );
+
+</script>
 </body>
 </html>
