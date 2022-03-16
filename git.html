@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Mi Sitio Anghelo Muñoz</title>
+        <meta charset="utf-8">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">  
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700&display=swap" rel="stylesheet">
+        <link href="fontawesome/css/fontawesome.css">
+      <style>
+        *{padding:0px;margin:0px;text-decoration: none;list-style: none;}
+        .navegacion{background: black;}
+        .nav li{}
+        .nav a{display: block;padding: 20px;color: blanchedalmond;font-size: 20px;}
+        .nav a:hover{background: #3e3c3c;text-decoration: none;}
+        ul.nav{display: flex;justify-content: center;}
+        .nombre h1{font-size: 3.25em;font-family: 'Open Sans', sans-serif;}
+        h1 strong{font-weight: 900;}
+        .nombre{margin-top:100px ;margin-bottom: 100px;}
+        ul.redes{display: flex;justify-content: center;}
+        .redes a{display: block;padding: 30px;font-size: 50px;color:white}
+        footer{padding-bottom:5px;padding-top:15px;background: #dd403a;}
+        .redes a:hover{color:#c0bcb5;background: red;}
+        .foto{width: 90%;}
+        pre{background:black;color: white;}
+      </style>
+      <script src="https://kit.fontawesome.com/769a782476.js" crossorigin="anonymous"></script>
+      </head>
+<body>
+  <nav class="navegacion">
+      <ul class="nav">
+        <li><a href="">work</a></li>
+        <li><a href="">portafolio</a></li>
+        <li><a href="">contact</a></li>
+      </ul>
+  </nav>
+  <div class="container nombre">
+  <div class="row">
+    <div class="col">
+      <h1>iniciando un proyecto en github</h1>
+      <p>github es un repositorio donde los programadores y otros pueden subir sus proyectos</p>
+      <p>otra ventaja de github es el poder tener un sitio, que es denominado github pages</p>
+      <p>en primer lugar debes crear un acuenta en github, es facil</p>
+      <p>tambien crear el repositorio con un nombre ej: misitioweb</p>
+      <p>luego instalar git, y desde el programa git (debe ser instalado en el equipo local), ejecutar comando, la linea de comandos es similares a los de linux puede usar pwd, cd, mkdir, etc...</p>
+      <p>tenemos que crear la carpeta en el equipo de manera local ej misitioweb</p>
+      <p>desde la terminal de comandos ejecutar</p>
+      <pre>
+      <code></code>$ git init</code>
+      <code>$ git status</code>
+      <code>$ git remote add origin "el link del proyeecto github"</code>
+      </pre>
+      <p>ahora vamos a subir un archivo del equipo local al repositorio de git </p>
+      <pre>
+      <code>$ git add index.html</code>
+      <code>$ git commit -m "subiendo archivos"</code>
+      <code>$ git push origin master</code>
+      </pre>
+    </div>
+  </div>
+  </div>
+ 
+</body>
+</html>
