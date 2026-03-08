@@ -121,6 +121,9 @@
             .decorative-flowers {
                 font-size: 24px;
             }
+            .cat {
+                font-size: 22px;
+            }
         }
 
         @keyframes cardEntry {
@@ -263,10 +266,22 @@
             animation: flowerFloat 4s ease-in-out infinite;
         }
 
-        .flower1 { top: 10%; left: 10%; animation-delay: 0s; }
-        .flower2 { top: 15%; right: 12%; animation-delay: 1s; }
-        .flower3 { bottom: 20%; left: 8%; animation-delay: 2s; }
-        .flower4 { bottom: 15%; right: 10%; animation-delay: 0.5s; }
+        .flower1 { top: 8%; left: 5%; animation-delay: 0s; }
+        .flower2 { top: 12%; right: 8%; animation-delay: 1s; }
+        .flower3 { bottom: 18%; left: 5%; animation-delay: 2s; }
+        .flower4 { bottom: 12%; right: 5%; animation-delay: 0.5s; }
+        .flower5 { top: 5%; left: 40%; animation-delay: 1.5s; }
+        .flower6 { bottom: 5%; right: 35%; animation-delay: 0.8s; }
+
+        .cat {
+            position: absolute;
+            font-size: 28px;
+            opacity: 0.7;
+            animation: flowerFloat 3.5s ease-in-out infinite;
+        }
+
+        .cat1 { top: 15%; left: 20%; animation-delay: 0.3s; }
+        .cat2 { bottom: 18%; right: 18%; animation-delay: 1.2s; }
 
         @keyframes flowerFloat {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -308,6 +323,10 @@
     <div class="decorative-flowers flower2">🌺</div>
     <div class="decorative-flowers flower3">🌷</div>
     <div class="decorative-flowers flower4">🌹</div>
+    <div class="decorative-flowers flower5">🌻</div>
+    <div class="decorative-flowers flower6">🌺</div>
+    <div class="cat cat1">🐱</div>
+    <div class="cat cat2">🐱</div>
 
     <div class="card">
         <div class="sparkles">
