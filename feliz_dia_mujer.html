@@ -87,6 +87,9 @@
             .special-message .message-content {
                 padding: 20px;
             }
+            .special-message.show {
+                max-height: 400px;
+            }
         }
 
         @media (max-width: 400px) {
@@ -110,6 +113,9 @@
             }
             .special-message p {
                 font-size: 13px;
+            }
+            .special-message.show {
+                max-height: 450px;
             }
             .decorative-flowers {
                 font-size: 24px;
@@ -228,7 +234,7 @@
 
         .special-message.show {
             opacity: 1;
-            max-height: 300px;
+            max-height: 500px;
         }
 
         .special-message .message-content {
