@@ -70,9 +70,11 @@
             max-width: 250px;
             width: 100%;
             height: auto;
-            border: 2px solid var(--dark-color);
+            border-radius: 50%;
             object-fit: cover;
             margin-bottom: 20px;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
         /* CORRECCIÓN CLAVE: Eliminar margen superior del H1 para alinear con la foto */
@@ -142,7 +144,122 @@
         }
 
         .habilidades-list i:hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
+            color: var(--primary-color) !important;
+        }
+
+        /* --- Especialidades --- */
+        .specialties-section {
+            padding: 80px 0;
+            background: var(--dark-color);
+            color: white;
+        }
+
+        .specialties-section h1 {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .specialty-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .specialty-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .specialty-card i {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: transform 0.4s ease;
+        }
+
+        .specialty-card:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .specialty-card h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .specialty-card p {
+            font-size: 0.95em;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        /* --- Wave Divider --- */
+        .wave-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- Animaciones adicionales --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .profile-photo {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 3px solid var(--primary-color);
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary-color); }
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
         }
 
         /* --- Pie de Página --- */
@@ -213,9 +330,14 @@
             .habilidades-list i {
                 font-size: 3em;
             }
-            .profile-photo {
-                max-width: 180px;
-            }
+        .profile-photo {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
         }
     </style>
 </head>
@@ -226,6 +348,8 @@
         <ul class="nav-list">
             <li><a href="#about" class="nav-link">Acerca de Mí</a></li>
             <li><a href="#skills" class="nav-link">Habilidades</a></li>
+            <li><a href="#specialties" class="nav-link">Especialidades</a></li>
+            <li><a href="proyectoWeb/index.html" class="nav-link">Conceptos de Programación</a></li>
             <li><a href="#contact" class="nav-link">Contacto</a></li>
         </ul>
     </nav>
@@ -234,13 +358,10 @@
         
         <div class="row align-items-start d-flex"> 
             
-            <div class="col-sm-6 col-md-5 d-flex justify-content-center" data-aos="fade-right">
-                <img src="anghelo.jpeg" alt="Anghelo Muñoz" class="profile-photo">
-            </div>
-            
-            <div class="col-sm-6 col-md-7 hero-text text-left" data-aos="fade-left">
-                <h1 class="display-4">Hola, soy **Anghelo Muñoz Lopez.**</h1>
-                <h2 class="lead">Desarrollador Web Full-Stack</h2>
+            <div class="col-12 hero-text text-left" data-aos="fade-left">
+                <h1 class="display-4">Hola, soy <span style="color: var(--primary-color);">Anghelo Muñoz</span></h1>
+                <h2 class="lead">Desarrollador Full-Stack | Spring Boot & Angular</h2>
+                <p class="text-muted mt-3" style="font-size: 1.1em;">Especialista en Arquitectura Onion y Clean Architecture</p>
                 
                 <div class="mt-3">
                     <a href="https://drive.google.com/file/d/11_E8FaM7C2oa34EaAIOc0rh8ayduvW_e/view?usp=sharing" target="_blank" class="cv-link">
@@ -255,8 +376,9 @@
         <h3 class="text-center">Acerca de Mí 🚀</h3>
         <div class="row align-items-center">
             <div class="col-md-12 about-text" data-aos="fade-up">
-                <p>Soy un **Desarrollador Web** entusiasta por las tecnologías y el desarrollo de soluciones digitales robustas. Con experiencia en el **diseño y la creación de contenido digital**.</p>
-                <p>Mi enfoque está en el desarrollo **Front-End y Back-End**, buscando siempre implementar las mejores prácticas y arquitecturas en cada proyecto. Me considero una persona proactiva, con alta capacidad de autoaprendizaje y resolución de problemas.</p>
+                <p>Soy un <strong>Desarrollador Web Full-Stack</strong> especializado en <strong>Spring Boot</strong> y <strong>Angular</strong>, con experiencia en el diseño y la creación de soluciones digitales robustas.</p>
+                <p>Mi enfoque está en el desarrollo <strong>Front-End y Back-End</strong>, implementando las mejores prácticas y arquitecturas modernas. Manejo <strong>Arquitectura Onion</strong> y <strong>Clean Architecture</strong> para crear sistemas escalables, mantenibles y con alta calidad de código.</p>
+                <p>Me considero una persona proactiva, con alta capacidad de autoaprendizaje y resolución de problemas. Busco constantemente mejorar y aprender nuevas tecnologías.</p>
                 <p class="font-weight-bold">⚽️ Soy una persona activa que disfruta plenamente de hacer deporte. El fútbol es mi gran pasión, tanto jugarlo en equipo como seguir cada partido, ya que me encanta la adrenalina y la estrategia que implica. Para mí, el deporte no es solo un pasatiempo, sino una forma esencial de mantenerme energizado y conectado.</p>
             </div>
             <!---<div class="col-md-6 d-none d-md-block text-center" data-aos="fade-up" data-aos-delay="200">
@@ -267,7 +389,7 @@
 
     <div class="container-fluid skills-section" id="skills">
         <div class="container">
-            <h1>My Skills ✨</h1>
+            <h1 class="section-title">My Skills ✨</h1>
             <div class="row">
                 <div class="col-12">
                     <div class="habilidades-list">
@@ -282,7 +404,65 @@
                         <i class="fab fa-linux" data-aos="zoom-in" data-aos-delay="400"></i>
                         <i class="fab fa-github-square" data-aos="zoom-in" data-aos-delay="450"></i>
                         <i class="fab fa-bootstrap" style="color:#563d7c" data-aos="zoom-in" data-aos-delay="500"></i>
-                        <i class="fas fa-terminal" data-aos="zoom-in" data-aos-delay="550"></i>
+                        <i class="fas fa-leaf" style="color:#6db33f" data-aos="zoom-in" data-aos-delay="550" title="Spring Boot"></i>
+                        <i class="fas fa-database" style="color:#00758f" data-aos="zoom-in" data-aos-delay="600" title="MySQL"></i>
+                        <i class="fab fa-git-alt" style="color:#f05032" data-aos="zoom-in" data-aos-delay="650"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wave-divider" data-aos="fade-up">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path fill="#212529" d="M0,40 C360,100 1080,0 1440,60 L1440,100 L0,100 Z"></path>
+        </svg>
+    </div>
+
+    <div class="container-fluid specialties-section" id="specialties">
+        <div class="container">
+            <h1 class="section-title">Especialidades 🚀</h1>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="specialty-card">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>Arquitectura Onion</h3>
+                        <p>Implementación de arquitectura onion para lograr sistemas altamente desacoplados, mantenibles y testeables.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="specialty-card">
+                        <i class="fas fa-cubes"></i>
+                        <h3>Clean Architecture</h3>
+                        <p>Diseño de sistemas con separación clara de responsabilidades y dependencias externas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="specialty-card">
+                        <i class="fab fa-java"></i>
+                        <h3>Spring Boot</h3>
+                        <p>Desarrollo de APIs RESTful robustas y escalables con Spring Boot y Spring Security.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="specialty-card">
+                        <i class="fab fa-angular"></i>
+                        <h3>Angular</h3>
+                        <p>Creación de aplicaciones web SPA modernas, responsivas y con excelente experiencia de usuario.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="specialty-card">
+                        <i class="fas fa-code-branch"></i>
+                        <h3>Git & Docker</h3>
+                        <p>Gestión de versiones profesional y contenedorización de aplicaciones para despliegues estables.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="specialty-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Base de Datos</h3>
+                        <p>Diseño y optimización de bases de datos MySQL y PostgreSQL para aplicaciones de alto rendimiento.</p>
                     </div>
                 </div>
             </div>
@@ -308,14 +488,11 @@
         </div>
         <div class="copyright">
             <div class="container">
-                <div>Copyright © 2024 | Anghelo Muñoz. Todos los derechos reservados.</div>
+                <div>Copyright © 2026 | Anghelo Muñoz. Todos los derechos reservados.</div>
             </div>
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
@@ -323,7 +500,6 @@
             once: true,
         });
 
-        // Código para scroll suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -332,9 +508,6 @@
                 });
             });
         });
-        
-        // El código JavaScript anterior (suma, modal, etc.) fue eliminado
-        // para mantener solo las funcionalidades modernas y relevantes de un portafolio.
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
