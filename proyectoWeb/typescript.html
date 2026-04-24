@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript - Guía Completa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3178c6;
+            --primary-dark: #235a97;
+            --secondary: #5a9bcf;
+            --bg-dark: #1a1a2e;
+            --bg-darker: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background: rgba(49, 120, 198, 0.1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .concept-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(49, 120, 198, 0.2);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .badge-bases { background: rgba(49, 120, 198, 0.2); color: #5a9bcf; }
+        .badge-intermedio { background: rgba(90, 155, 207, 0.2); color: #7ec8e3; }
+        .badge-avanzado { background: rgba(160, 100, 207, 0.2); color: #a064cf; }
+
+        .example-block {
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .example-header {
+            background: #161b22;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .example-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .example-title {
+            margin-left: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .example-code {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string { color: #a5d6ff; }
+        .function { color: #d2a8ff; }
+        .type { color: #7ee787; }
+        .comment { color: #8b949e; }
+        .number { color: #79c0ff; }
+        .operator { color: #ff7b72; }
+        .interface { color: #ffa657; }
+        .enum { color: #a5d6ff; }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .feature-text h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-text p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-darker);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            nav ul { gap: 1rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+            .two-columns { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">TS</div>
+        </div>
+        <h1>TypeScript</h1>
+        <p class="subtitle">Guía completa con conceptos y ejemplos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#tipos-basicos">Tipos Básicos</a></li>
+            <li><a href="#interfaces">Interfaces</a></li>
+            <li><a href="#tipos-avanzados">Tipos Avanzados</a></li>
+            <li><a href="#funciones">Funciones</a></li>
+            <li><a href="#genéricos">Genéricos</a></li>
+            <li><a href="#clases">Clases</a></li>
+            <li><a href="#utilidades">Utility Types</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="introduccion">
+            <h2 class="section-title">Introducción a TypeScript</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                TypeScript es un superset tipado de JavaScript que compila a JavaScript puro. Añade tipos estáticos, clases e interfaces.
+            </p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div class="feature-text">
+                        <h4>Tipado Estático</h4>
+                        <p>Detecta errores en tiempo de desarrollo, no en ejecución</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">O</div>
+                    <div class="feature-text">
+                        <h4>Type Inference</h4>
+                        <p>TypeScript infiere tipos automáticamente cuando es posible</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">C</div>
+                    <div class="feature-text">
+                        <h4>Compilación</h4>
+                        <p>Compila a JavaScript estándar compatible con cualquier navegador</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">E</div>
+                    <div class="feature-text">
+                        <h4>ES Next</h4>
+                        <p>Soporta todas las características modernas de ECMAScript</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card" style="margin-top: 1.5rem;">
+                <h3>Instalación y Uso</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">terminal</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// Instalar TypeScript globalmente</span>
+npm install -g typescript
+
+<span class="comment">// Verificar versión</span>
+tsc --version
+
+<span class="comment">// Compilar un archivo</span>
+tsc archivo.ts
+
+<span class="comment">// Compilar con watch mode</span>
+tsc --watch archivo.ts</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipos-basicos">
+            <h2 class="section-title">Tipos Básicos</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                TypeScript soporta los tipos primitivos básicos de JavaScript más algunas adiciones.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <span class="badge badge-bases">Básico</span>
+                    <h3>String, Number, Boolean</h3>
+                    <p>Tipos primitivos fundamentales en TypeScript.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">tipos-basicos.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">let</span> nombre: <span class="type">string</span> = <span class="string">"Juan"</span>;
+<span class="keyword">let</span> edad: <span class="type">number</span> = <span class="number">25</span>;
+<span class="keyword">let</span> activo: <span class="type">boolean</span> = <span class="keyword">true</span>;
+
+<span class="comment">// Type inference - infiere automáticamente</span>
+<span class="keyword">let</span> ciudad = <span class="string">"Madrid"</span>; <span class="comment">// string</span>
+<span class="keyword">let</span> temperatura = <span class="number">20.5</span>; <span class="comment">// number</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-bases">Básico</span>
+                    <h3>Array y Tuple</h3>
+                    <p>Colecciones de elementos con tipos definidos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">arrays.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Array de strings</span>
+<span class="keyword">let</span> frutas: <span class="type">string</span>[] = [<span class="string">"manzana"</span>, <span class="string">"pera"</span>];
+<span class="keyword">let</span> numeros: <span class="type">Array</span>&lt;<span class="type">number</span>&gt; = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// Tuple - array con tipos fijos</span>
+<span class="keyword">let</span> par: [<span class="type">string</span>, <span class="type">number</span>] = [<span class="string">"edad"</span>, <span class="number">30</span>];
+<span class="keyword">let</span> respuesta: [<span class="type">boolean</span>, <span class="type">string</span>] = [<span class="keyword">true</span>, <span class="string">"éxito"</span>];</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-bases">Básico</span>
+                    <h3>Enum</h3>
+                    <p>Conjunto de constantes nombradas.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">enums.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">enum</span> <span class="type">Estado</span> {
+  Activo = <span class="string">"ACTIVO"</span>,
+  Inactivo = <span class="string">"INACTIVO"</span>,
+  Pendiente = <span class="string">"PENDIENTE"</span>
+}
+
+<span class="keyword">enum</span> <span class="type">Prioridad</span> {
+  Baja,    <span class="comment">// 0</span>
+  Media,   <span class="comment">// 1</span>
+  Alta     <span class="comment">// 2</span>
+}
+
+<span class="keyword">let</span> estadoActual: <span class="type">Estado</span> = <span class="type">Estado</span>.Activo;</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-bases">Básico</span>
+                    <h3>Any y Unknown</h3>
+                    <p>Para valores de tipo desconocido.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">any-unknown.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// any - desactiva el chequeo de tipos</span>
+<span class="keyword">let</span> variable: <span class="type">any</span> = <span class="string">"hola"</span>;
+variable = <span class="number">42</span>; <span class="comment">// permitido</span>
+
+<span class="comment">// unknown - tipo seguro para valores desconocidos</span>
+<span class="keyword">let</span> valor: <span class="type">unknown</span> = <span class="string">"texto"</span>;
+<span class="keyword">if</span> (<span class="keyword">typeof</span> valor === <span class="string">"string"</span>) {
+  <span class="function">console.log</span>(valor.<span class="function">toUpperCase</span>());
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-bases">Básico</span>
+                    <h3>Null, Undefined y Void</h3>
+                    <p>Tipos para valores nulos y funciones sin retorno.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">nulos.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">let</span> nada: <span class="type">null</span> = <span class="keyword">null</span>;
+<span class="keyword">let</span> indefinido: <span class="type">undefined</span> = <span class="keyword">undefined</span>;
+
+<span class="comment">// void para funciones que no retornan nada</span>
+<span class="keyword">function</span> <span class="function">saludar</span>(): <span class="type">void</span> {
+  <span class="function">console.log</span>(<span class="string">"Hola"</span>);
+}
+
+<span class="comment">// never para funciones que nunca terminan</span>
+<span class="keyword">function</span> <span class="function">error</span>(): <span class="type">never</span> {
+  <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">"Error fatal"</span>);
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-bases">Básico</span>
+                    <h3>Union Types</h3>
+                    <p>Una variable puede ser de varios tipos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">union.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">let</span> id: <span class="type">string</span> | <span class="type">number</span> = <span class="string">"abc123"</span>;
+id = <span class="number">123</span>; <span class="comment">// válido</span>
+
+<span class="keyword">type</span> <span class="type">Resultado</span> = <span class="string">"éxito"</span> | <span class="string">"error"</span> | <span class="keyword">null</span>;
+
+<span class="keyword">function</span> <span class="function">procesar</span>(valor: <span class="type">string</span> | <span class="type">number</span>) {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> valor === <span class="string">"string"</span>) {
+    <span class="keyword">return</span> valor.<span class="function">toUpperCase</span>();
+  }
+  <span class="keyword">return</span> valor * <span class="number">2</span>;
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="interfaces">
+            <h2 class="section-title">Interfaces</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Las interfaces definen la estructura que debe seguir un objeto. Son fundamentales para el tipado fuerte.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Interface Básica</h3>
+                    <p>Definir la forma de un objeto.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">interface-basica.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="interface">Usuario</span> {
+  id: <span class="type">number</span>;
+  nombre: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+  edad?: <span class="type">number</span>; <span class="comment">// opcional</span>
+  readonly createdAt: <span class="type">Date</span>; <span class="comment">// solo lectura</span>
+}
+
+<span class="keyword">const</span> usuario: <span class="interface">Usuario</span> = {
+  id: <span class="number">1</span>,
+  nombre: <span class="string">"María"</span>,
+  email: <span class="string">"maria@ejemplo.com"</span>,
+  createdAt: <span class="keyword">new</span> <span class="function">Date</span>()
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Extend, Index Signature</h3>
+                    <p>Interfaces compuestas y dinámicas.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">interface-avanzada.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="interface">Animal</span> {
+  nombre: <span class="type">string</span>;
+}
+
+<span class="keyword">interface</span> <span class="interface">Mascota</span> <span class="keyword">extends</span> <span class="interface">Animal</span> {
+  dueno: <span class="type">string</span>;
+}
+
+<span class="comment">// Index signature para propiedades dinámicas</span>
+<span class="keyword">interface</span> <span class="interface">Diccionario</span> {
+  [clave: <span class="type">string</span>]: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> traduccion: <span class="interface">Diccionario</span> = {
+  hello: <span class="string">"hola"</span>,
+  world: <span class="string">"mundo"</span>
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Function Interfaces</h3>
+                    <p>Definir la firma de una función.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">function-interface.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="interface">Operacion</span> {
+  (a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> <span class="function">sumar</span>: <span class="interface">Operacion</span> = (x, y) => x + y;
+<span class="keyword">const</span> <span class="function">multiplicar</span>: <span class="interface">Operacion</span> = (x, y) => x * y;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipos-avanzados">
+            <h2 class="section-title">Tipos Avanzados</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Características avanzadas de TypeScript para crear tipos complejos y reutilizables.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <span class="badge badge-avanzado">Avanzado</span>
+                    <h3>Type Alias</h3>
+                    <p>Crear nombres alternativos para tipos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">type-alias.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">type</span> <span class="type">ID</span> = <span class="type">string</span> | <span class="type">number</span>;
+<span class="keyword">type</span> <span class="type">Fecha</span> = <span class="type">string</span> | <span class="type">Date</span>;
+
+<span class="keyword">type</span> <span class="type">Config</span> = {
+  apiUrl: <span class="type">string</span>;
+  timeout: <span class="type">number</span>;
+  retry: <span class="type">boolean</span>;
+};
+
+<span class="keyword">type</span> <span class="type">SoloLectura</span>&lt;T&gt; = {
+  <span class="keyword">readonly</span> [P <span class="keyword">in</span> <span class="keyword">keyof</span> T]: T[P];
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-avanzado">Avanzado</span>
+                    <h3>Discriminated Unions</h3>
+                    <p>Uniones con propiedad discriminante para type narrowing.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">unions.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">type</span> <span class="type">Solicitud</span> =
+  | { tipo: <span class="string">"exito"</span>; datos: <span class="type">string</span> }
+  | { tipo: <span class="string">"error"</span>; mensaje: <span class="type">string</span> }
+  | { tipo: <span class="string">"carga"</span> };
+
+<span class="keyword">function</span> <span class="function">procesar</span>(req: <span class="type">Solicitud</span>) {
+  <span class="keyword">switch</span> (req.tipo) {
+    <span class="keyword">case</span> <span class="string">"exito"</span>:
+      <span class="keyword">return</span> req.datos;
+    <span class="keyword">case</span> <span class="string">"error"</span>:
+      <span class="keyword">return</span> req.mensaje;
+    <span class="keyword">case</span> <span class="string">"carga"</span>:
+      <span class="keyword">return</span> <span class="string">"Cargando..."</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-avanzado">Avanzado</span>
+                    <h3>Template Literal Types</h3>
+                    <p>Crear tipos a partir de plantillas de strings.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">template.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">type</span> <span class="type">Evento</span> = <span class="string">"click"</span> | <span class="string">"scroll"</span> | <span class="string">"hover"</span>;
+<span class="keyword">type</span> <span class="type">Handler</span> = <span class="string">`on${Capitalize<Evento>}`</span>;
+<span class="comment">// Handler = "onClick" | "onScroll" | "onHover"</span>
+
+<span class="keyword">type</span> <span class="type">Columnas</span> = <span class="string">"a"</span> | <span class="string">"b"</span> | <span class="string">"c"</span>;
+<span class="keyword">type</span> <span class="type">Propiedad</span> = <span class="string">`col-${Columnas}`</span>;
+<span class="comment">// Propiedad = "col-a" | "col-b" | "col-c"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-avanzado">Avanzado</span>
+                    <h3>Conditional Types</h3>
+                    <p>Tipos que dependen de otros tipos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">conditional.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">type</span> <span class="type">EsString</span>&lt;T&gt; = T <span class="keyword">extends</span> <span class="type">string</span> ? <span class="type">true</span> : <span class="type">false</span>;
+
+<span class="keyword">type</span> <span class="type">A</span> = <span class="type">EsString</span>&lt;<span class="type">string</span>&gt;;  <span class="comment">// true</span>
+<span class="keyword">type</span> <span class="type">B</span> = <span class="type">EsString</span>&lt;<span class="type">number</span>&gt;; <span class="comment">// false</span>
+
+<span class="keyword">type</span> <span class="type">ExtraerNombre</span>&lt;T&gt; = T <span class="keyword">extends</span> { nombre: <span class="type">infer</span> U } ? U : <span class="keyword">never</span>;
+<span class="keyword">type</span> <span class="type">Nombre</span> = <span class="type">ExtraerNombre</span>&lt;{ nombre: <span class="type">string</span>; edad: <span class="type">number</span> }&gt;;
+<span class="comment">// string</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-avanzado">Avanzado</span>
+                    <h3>Mapped Types</h3>
+                    <p>Transformar tipos existentes en nuevos tipos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">mapped.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Hacer todas las propiedades opcionales</span>
+<span class="keyword">type</span> <span class="type">Parcial</span>&lt;T&gt; = {
+  [P <span class="keyword">in</span> <span class="keyword">keyof</span> T]?: T[P];
+};
+
+<span class="comment">// Hacer todas las propiedades requeridas</span>
+<span class="keyword">type</span> <span class="type">Requerido</span>&lt;T&gt; = {
+  [P <span class="keyword">in</span> <span class="keyword">keyof</span> T]-?: T[P];
+};
+
+<span class="comment">// Transformar propiedades a tipo diferente</span>
+<span class="keyword">type</span> <span class="type">Stringify</span>&lt;T&gt; = {
+  [P <span class="keyword">in</span> <span class="keyword">keyof</span> T]: <span class="type">string</span>;
+};</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="funciones">
+            <h2 class="section-title">Funciones</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                TypeScript extiende las capacidades de las funciones de JavaScript con tipado completo de parámetros y retornos.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Parámetros y Retorno</h3>
+                    <p>Funciones con tipos explícitos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">funciones.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">function</span> <span class="function">saludar</span>(nombre: <span class="type">string</span>): <span class="type">string</span> {
+  <span class="keyword">return</span> <span class="string">`Hola, </span><span class="string">${nombre}</span><span class="string">!`</span>;
+}
+
+<span class="comment">// Parámetros opcionales</span>
+<span class="keyword">function</span> <span class="function">crearUsuario</span>(
+  nombre: <span class="type">string</span>,
+  edad?: <span class="type">number</span>
+): <span class="type">string</span> {
+  <span class="keyword">return</span> edad ? <span class="string">`</span><span class="string">${nombre}</span><span class="string">, </span><span class="string">${edad}</span><span class="string">`</span> : nombre;
+}
+
+<span class="comment">// Parámetros con valores por defecto</span>
+<span class="keyword">function</span> <span class="function">incrementar</span>(valor: <span class="type">number</span>, delta: <span class="type">number</span> = <span class="number">1</span>): <span class="type">number</span> {
+  <span class="keyword">return</span> valor + delta;
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Funciones Flecha</h3>
+                    <p>Sintaxis moderna con tipado completo.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">arrow.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">const</span> <span class="function">duplicar</span> = (n: <span class="type">number</span>): <span class="type">number</span> => n * <span class="number">2</span>;
+
+<span class="keyword">const</span> <span class="function">procesarTexto</span> = (texto: <span class="type">string</span>, mayusculas: <span class="type">boolean</span> = <span class="keyword">false</span>): <span class="type">string</span> => {
+  <span class="keyword">return</span> mayusculas ? texto.<span class="function">toUpperCase</span>() : texto.<span class="function">toLowerCase</span>();
+};
+
+<span class="comment">// Funciones como parámetros</span>
+<span class="keyword">function</span> <span class="function">ejecutar</span>(fn: (a: <span class="type">number</span>) => <span class="type">number</span>, valor: <span class="type">number</span>): <span class="type">number</span> {
+  <span class="keyword">return</span> <span class="function">fn</span>(valor);
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Rest Parameters y Overloads</h3>
+                    <p>Parámetros variables y múltiples firmas.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">rest-overload.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Rest parameters</span>
+<span class="keyword">function</span> <span class="function">sumar</span>(...numeros: <span class="type">number</span>[]): <span class="type">number</span> {
+  <span class="keyword">return</span> numeros.<span class="function">reduce</span>((a, b) => a + b, <span class="number">0</span>);
+}
+
+<span class="comment">// Function overloads</span>
+<span class="keyword">function</span> <span class="function">parse</span>(input: <span class="type">string</span>): <span class="type">string</span>[];
+<span class="keyword">function</span> <span class="function">parse</span>(input: <span class="type">number</span>): <span class="type">number</span>;
+<span class="keyword">function</span> <span class="function">parse</span>(input: <span class="type">string</span> | <span class="type">number</span>): <span class="type">string</span>[] | <span class="type">number</span> {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> input === <span class="string">"string"</span>) {
+    <span class="keyword">return</span> input.<span class="function">split</span>(<span class="string">""</span>);
+  }
+  <span class="keyword">return</span> input;
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="genéricos">
+            <h2 class="section-title">Genéricos</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Los genéricos permiten crear componentes y funciones que funcionan con múltiples tipos sin perder información.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Genéricos Básicos</h3>
+                    <p>Funciones y tipos que aceptan cualquier tipo.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">generics-basico.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Función genérica</span>
+<span class="keyword">function</span> <span class="function">identidad</span>&lt;T&gt;(valor: T): T {
+  <span class="keyword">return</span> valor;
+}
+
+<span class="keyword">const</span> num = <span class="function">identidad</span>&lt;<span class="type">number</span>&gt;(<span class="number">42</span>);
+<span class="keyword">const</span> txt = <span class="function">identidad</span>(<span class="string">"hola"</span>); <span class="comment">// infiere T = string</span>
+
+<span class="comment">// Interface genérica</span>
+<span class="keyword">interface</span> <span class="interface">Contenedor</span>&lt;T&gt; {
+  valor: T;
+  obtener(): T;
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Restricciones (Constraints)</h3>
+                    <p>Limitar los tipos que puede usar un genérico.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">constraints.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Debe tener propiedad length</span>
+<span class="keyword">function</span> <span class="function">longitud</span>&lt;T <span class="keyword">extends</span> { length: <span class="type">number</span> }&gt;(item: T): <span class="type">number</span> {
+  <span class="keyword">return</span> item.length;
+}
+
+<span class="function">longitud</span>(<span class="string">"hola"</span>);     <span class="comment">// 4</span>
+<span class="function">longitud</span>([<span class="number">1</span>, <span class="number">2</span>]); <span class="comment">// 2</span>
+
+<span class="comment">// Extender de un tipo específico</span>
+<span class="keyword">interface</span> <span class="interface">Identificable</span> {
+  id: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="function">buscarPorId</span>&lt;T <span class="keyword">extends</span> <span class="interface">Identificable</span>&gt;(
+  items: T[],
+  id: <span class="type">string</span>
+): T | <span class="keyword">undefined</span> {
+  <span class="keyword">return</span> items.<span class="function">find</span>(item => item.id === id);
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Genéricos con Múltiples Tipos</h3>
+                    <p>Varios parámetros de tipo en una función.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">multi-generics.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Pares clave-valor</span>
+<span class="keyword">function</span> <span class="function">crearPar</span>&lt;K, V&gt;(clave: K, valor: V): { clave: K; valor: V } {
+  <span class="keyword">return</span> { clave, valor };
+}
+
+<span class="keyword">const</span> par = <span class="function">crearPar</span>(<span class="string">"edad"</span>, <span class="number">30</span>);
+<span class="comment">// { clave: string; valor: number }</span>
+
+<span class="comment">// Utility types con genéricos</span>
+<span class="keyword">type</span> <span class="type">ClaveValor</span>&lt;K <span class="keyword">extends</span> <span class="type">string</span>, V&gt; = {
+  [P <span class="keyword">in</span> K]: V;
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Clases Genéricas</h3>
+                    <p>Clases que trabajan con tipos genéricos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">clase-generica.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="type">Pila</span>&lt;T&gt; {
+  <span class="keyword">private</span> elementos: T[] = [];
+
+  <span class="function">apilar</span>(elemento: T): <span class="type">void</span> {
+    <span class="keyword">this</span>.elementos.<span class="function">push</span>(elemento);
+  }
+
+  <span class="function">desapilar</span>(): T | <span class="keyword">undefined</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.elementos.<span class="function">pop</span>();
+  }
+}
+
+<span class="keyword">const</span> pilaNumeros = <span class="keyword">new</span> <span class="type">Pila</span>&lt;<span class="type">number</span>&gt;();
+pilaNumeros.<span class="function">apilar</span>(<span class="number">1</span>);
+pilaNumeros.<span class="function">apilar</span>(<span class="number">2</span>);</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="clases">
+            <h2 class="section-title">Clases</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                TypeScript soporta clases con modificadores de acceso, herencia, abstract classes y más.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Clase Básica con Modificadores</h3>
+                    <p>public, private, protected, readonly.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">clase.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="type">Usuario</span> {
+  <span class="keyword">public</span> nombre: <span class="type">string</span>;
+  <span class="keyword">private</span> email: <span class="type">string</span>;
+  <span class="keyword">protected</span> id: <span class="type">number</span>;
+  <span class="keyword">readonly</span> createdAt: <span class="type">Date</span>;
+
+  <span class="function">constructor</span>(nombre: <span class="type">string</span>, email: <span class="type">string</span>) {
+    <span class="keyword">this</span>.nombre = nombre;
+    <span class="keyword">this</span>.email = email;
+    <span class="keyword">this</span>.id = <span class="type">Math</span>.<span class="function">random</span>();
+    <span class="keyword">this</span>.createdAt = <span class="keyword">new</span> <span class="function">Date</span>();
+  }
+
+  <span class="function">getEmail</span>(): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.email;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Herencia y Override</h3>
+                    <p>Extender clases y sobrescribir métodos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">herencia.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+  <span class="keyword">constructor</span>(<span class="keyword">public</span> nombre: <span class="type">string</span>) {}
+
+  <span class="function">hablar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Sonido"</span>);
+  }
+}
+
+<span class="keyword">class</span> <span class="type">Perro</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+  <span class="function">constructor</span>(nombre: <span class="type">string</span>, <span class="keyword">public</span> raza: <span class="type">string</span>) {
+    <span class="keyword">super</span>(nombre);
+  }
+
+  <span class="function">hablar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Guau!"</span>);
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Abstract Classes</h3>
+                    <p>Clases base que no se pueden instanciar directamente.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">abstract.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">abstract class</span> <span class="type">Figura</span> {
+  <span class="keyword">abstract</span> <span class="function">calcularArea</span>(): <span class="type">number</span>;
+  
+  <span class="function">mostrarArea</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">`Area: </span><span class="string">${<span class="keyword">this</span>.<span class="function">calcularArea</span>()}</span><span class="string">`</span>);
+  }
+}
+
+<span class="keyword">class</span> <span class="type">Circulo</span> <span class="keyword">extends</span> <span class="type">Figura</span> {
+  <span class="constructor">constructor</span>(<span class="keyword">public</span> radio: <span class="type">number</span>) {
+    <span class="keyword">super</span>();
+  }
+
+  <span class="function">calcularArea</span>(): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="type">Math</span>.<span class="function">PI</span> * <span class="keyword">this</span>.radio ** <span class="number">2</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Implement e Interfaces</h3>
+                    <p>Una clase puede implementar múltiples interfaces.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">implement.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="interface">Volable</span> {
+  <span class="function">volar</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">interface</span> <span class="interface">Nadable</span> {
+  <span class="function">nadar</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="type">Pato</span> <span class="keyword">implements</span> <span class="interface">Volable</span>, <span class="interface">Nadable</span> {
+  <span class="function">volar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Volando"</span>);
+  }
+
+  <span class="function">nadar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Nadando"</span>);
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="utilidades">
+            <h2 class="section-title">Utility Types</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                TypeScript incluye tipos utilitarios integrados para transformar tipos existentes.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Partial, Required, Readonly</h3>
+                    <p>Modificadores de propiedad.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">modifiers.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="interface">Usuario</span> {
+  id: <span class="type">number</span>;
+  nombre: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+}
+
+<span class="keyword">type</span> <span class="type">UsuarioParcial</span> = <span class="type">Partial</span>&lt;<span class="interface">Usuario</span>&gt;;
+<span class="keyword">type</span> <span class="type">UsuarioRequerido</span> = <span class="type">Required</span>&lt;<span class="interface">Usuario</span>&gt;;
+<span class="keyword">type</span> <span class="type">UsuarioSoloLectura</span> = <span class="type">Readonly</span>&lt;<span class="interface">Usuario</span>&gt;;
+
+<span class="comment">// Ejemplo de uso</span>
+<span class="keyword">function</span> <span class="function">actualizarUsuario</span>(
+  id: <span class="type">number</span>,
+  datos: <span class="type">Partial</span>&lt;<span class="interface">Usuario</span>&gt;
+): <span class="type">void</span> {
+  <span class="comment">// datos puede tener cualquier subconjunto de Usuario</span>
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Pick, Omit, Exclude, Extract</h3>
+                    <p>Selección y exclusión de propiedades.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">select.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="interface">Usuario</span> {
+  id: <span class="type">number</span>;
+  nombre: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+  password: <span class="type">string</span>;
+}
+
+<span class="comment">// Solo ciertas propiedades</span>
+<span class="keyword">type</span> <span class="type">UsuarioPublico</span> = <span class="type">Pick</span>&lt;<span class="interface">Usuario</span>, <span class="string">"id"</span> | <span class="string">"nombre"</span> | <span class="string">"email"</span>&gt;;
+
+<span class="comment">// Excluir propiedades</span>
+<span class="keyword">type</span> <span class="type">SinPassword</span> = <span class="type">Omit</span>&lt;<span class="interface">Usuario</span>, <span class="string">"password"</span>&gt;;
+
+<span class="comment">// Excluir de union types</span>
+<span class="keyword">type</span> <span class="type">SoloNumeros</span> = <span class="type">Exclude</span>&lt;<span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>, <span class="type">boolean</span> | <span class="type">string</span>&gt;;
+<span class="comment">// Result: number</span>
+
+<span class="keyword">type</span> <span class="type">SoloBoolean</span> = <span class="type">Extract</span>&lt;<span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>, <span class="type">boolean</span>&gt;;
+<span class="comment">// Result: boolean</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Record y Map</h3>
+                    <p>Crear tipos para diccionarios y mapas.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">record.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Record: objeto con claves y valores tipados</span>
+<span class="keyword">type</span> <span class="type">Roles</span> = <span class="string">"admin"</span> | <span class="string">"user"</span> | <span class="string">"guest"</span>;
+<span class="keyword">type</span> <span class="type">Permisos</span> = <span class="type">Record</span>&lt;<span class="type">Roles</span>, <span class="type">boolean</span>&gt;;
+
+<span class="keyword">const</span> permisos: <span class="type">Permisos</span> = {
+  admin: <span class="keyword">true</span>,
+  user: <span class="keyword">true</span>,
+  guest: <span class="keyword">false</span>
+};
+
+<span class="comment">// Diccionarios de objetos</span>
+<span class="keyword">type</span> <span class="type">Usuarios</span> = <span class="type">Record</span>&lt;<span class="type">string</span>, { nombre: <span class="type">string</span>; edad: <span class="type">number</span> }&gt;;</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>ReturnType y Parameters</h3>
+                    <p>Extraer tipos de funciones.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">function-types.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">function</span> <span class="function">crearUsuario</span>(nombre: <span class="type">string</span>, edad: <span class="type">number</span>) {
+  <span class="keyword">return</span> { id: <span class="type">Math</span>.<span class="function">random</span>(), nombre, edad };
+}
+
+<span class="keyword">type</span> <span class="type">UsuarioCreado</span> = <span class="type">ReturnType</span>&lt;<span class="keyword">typeof</span> <span class="function">crearUsuario</span>&gt;;
+
+<span class="keyword">type</span> <span class="type">Params</span> = <span class="type">Parameters</span>&lt;<span class="keyword">typeof</span> <span class="function">crearUsuario</span>&gt;;
+<span class="comment">// [nombre: string, edad: number]</span>
+
+<span class="comment">// Parámetros como tupla</span>
+<span class="keyword">type</span> <span class="type">PrimerParametro</span> = <span class="type">Params</span>[<span class="number">0</span>]; <span class="comment">// string</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>NonNullable y Awaited</h3>
+                    <p>Filtrar tipos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">filter.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Eliminar null y undefined</span>
+<span class="keyword">type</span> <span class="type">Limpio</span> = <span class="type">NonNullable</span>&lt;<span class="type">string</span> | <span class="type">number</span> | <span class="keyword">null</span> | <span class="keyword">undefined</span>&gt;;
+<span class="comment">// string | number</span>
+
+<span class="comment">// Obtener tipo de Promise resuelta</span>
+<span class="keyword">type</span> <span class="type">Resultado</span> = <span class="type">Awaited</span>&lt;<span class="type">Promise</span>&lt;<span class="type">string</span>&gt;&gt;;
+<span class="comment">// string</span>
+
+<span class="keyword">async function</span> <span class="function">fetchUsuario</span>() {
+  <span class="keyword">return</span> { nombre: <span class="string">"Juan"</span> };
+}
+
+<span class="keyword">type</span> <span class="type">Usuario</span> = <span class="type">Awaited</span>&lt;<span class="type">ReturnType</span>&lt;<span class="keyword">typeof</span> <span class="function">fetchUsuario</span>&gt;&gt;;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Resumen de Utility Types</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Utility Type</th>
+                        <th>Descripción</th>
+                        <th>Ejemplo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Partial&lt;T&gt;</td>
+                        <td>Todas las propiedades opcionales</td>
+                        <td>Partial&lt;Usuario&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>Required&lt;T&gt;</td>
+                        <td>Todas las propiedades requeridas</td>
+                        <td>Required&lt;Usuario&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>Readonly&lt;T&gt;</td>
+                        <td>Todas las propiedades solo lectura</td>
+                        <td>Readonly&lt;Usuario&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>Pick&lt;T, K&gt;</td>
+                        <td>Seleccionar propiedades</td>
+                        <td>Pick&lt;Usuario, 'id' | 'nombre'&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>Omit&lt;T, K&gt;</td>
+                        <td>Excluir propiedades</td>
+                        <td>Omit&lt;Usuario, 'password'&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>Record&lt;K, V&gt;</td>
+                        <td>Objeto con claves K y valores V</td>
+                        <td>Record&lt;string, number&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>ReturnType&lt;T&gt;</td>
+                        <td>Tipo de retorno de función</td>
+                        <td>ReturnType&lt;typeof fn&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>Parameters&lt;T&gt;</td>
+                        <td>Tipos de parámetros</td>
+                        <td>Parameters&lt;typeof fn&gt;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>TypeScript - Guía de Referencia | Microsoft</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

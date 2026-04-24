@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrum - Metodología Ágil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6b46c1;
+            --primary-dark: #553c9a;
+            --bg-dark: #1a1a2e;
+            --bg-darker: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary) 0%, #805ad5 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        nav {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: rgba(107, 70, 193, 0.1);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .concept-block {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .concept-block h3 {
+            margin-top: 0;
+        }
+
+        .highlight {
+            background: rgba(107, 70, 193, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+        }
+
+        .highlight p {
+            margin-bottom: 0;
+        }
+
+        .quote {
+            font-style: italic;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            background: var(--bg-darker);
+            margin: 2rem 0;
+        }
+
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .pillar {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .pillar-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pillar h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pillar p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .role-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .role-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .role-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .role-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .flow-diagram {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .flow-diagram h4 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .flow-step {
+            background: var(--bg-darker);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+        }
+
+        .flow-arrow {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            nav ul { gap: 1rem; }
+            .pillars { grid-template-columns: 1fr; }
+            .roles-grid { grid-template-columns: 1fr; }
+            main { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-icon">S</div>
+        <h1>Scrum</h1>
+        <p class="subtitle">Framework ligero para desarrollar y mantener productos complejos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#que-es">¿Qué es?</a></li>
+            <li><a href="#pilares">Pilares</a></li>
+            <li><a href="#valores">Valores</a></li>
+            <li><a href="#roles">Roles</a></li>
+            <li><a href="#sprint">Sprint</a></li>
+            <li><a href="#eventos">Eventos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="que-es">
+            <h2 class="section-title">¿Qué es Scrum?</h2>
+            
+            <p>
+                Scrum es un framework para trabajar de manera colaborativa en problemas complejos, 
+                mientras se entrega productos del máximo valor posible. No es una metodología 
+                prescriptiva, sino un conjunto de principios y prácticas que las personas aplican 
+                de forma flexible según sus necesidades.
+            </p>
+
+            <p>
+                Nació en el mundo del desarrollo de software, pero sus principios se aplican hoy 
+                a cualquier domaine donde equipos trabajan en productos o servicios complejos. 
+                Scrum se basa en el pensamiento empírico: en lugar de planificar todo de 
+                antemano, observa la realidad y se adapta.
+            </p>
+
+            <div class="quote">
+                "Scrum es un framework para abordar problemas complejos adaptativos, 
+                mientras se entrega productos del máximo valor posible."
+            </div>
+
+            <p>
+                La esencia de Scrum es simple: equipos pequeños trabajan juntos en ciclos 
+                cortos llamados Sprints. Cada Sprint produce un incremento del producto 
+                que puede potencialmente liberarse. El equipo inspecciona el resultado, 
+                aprende de él, y se adapta para el siguiente ciclo.
+            </p>
+        </section>
+
+        <section id="pilares">
+            <h2 class="section-title">Los Tres Pilares</h2>
+
+            <p>
+                Scrum se sustenta sobre tres pilares fundamentales que garantizan 
+                un proceso transparente y efectivo:
+            </p>
+
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-icon">👁</div>
+                    <h4>Transparencia</h4>
+                    <p>Todos comparten un understanding común de lo que se está trabajando y cómo va el proceso.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">🔍</div>
+                    <h4>Inspección</h4>
+                    <p>Se revisa frecuentemente el trabajo completado para detectar variaciones o problemas.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">⚡</div>
+                    <h4>Adaptación</h4>
+                    <p>Cuando se identifican problemas, se ajustan el proceso o el producto para corregirlos.</p>
+                </div>
+            </div>
+
+            <div class="concept-block">
+                <h3>El Ciclo Empírico</h3>
+                <p>
+                    Estos tres pilares funcionan como un ciclo continuo. La transparencia 
+                    permite que todos vean la realidad tal como es. La inspección permite 
+                    evaluar objetivamente el progreso. Y cuando algo no va según lo esperado, 
+                    la adaptación entra en juego para corregir el rumbo.
+                </p>
+            </div>
+        </section>
+
+        <section id="valores">
+            <h2 class="section-title">Valores de Scrum</h2>
+
+            <p>
+                Los cinco valores de Scrum no son solo palabras en una pared. 
+                Son comportamientos que el equipo practica diariamente para 
+                trabajar mejor juntos.
+            </p>
+
+            <div class="concept-block">
+                <h3>Compromiso</h3>
+                <p>
+                    El equipo se compromete no solo con las tareas individuales, sino 
+                    con el objetivo común del Sprint. Cuando alguien tiene dificultades, 
+                    los demás apoyan. Hay una responsabilidad colectiva por el resultado.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Enfoque</h3>
+                <p>
+                    En un mundo lleno de distracciones y solicitudes cambiantes, el 
+                    enfoque es valioso. El equipo sabe que durante el Sprint hay 
+                    un objetivo claro, y las energies se direcionan a lograrl.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Apertura</h3>
+                <p>
+                    La apertura significa que el trabajo y los desafíos se comparten 
+                    abiertamente. No hay责备 ni surprises. Todos ven la realidad 
+                    completa del proyecto, incluyendo los problemas.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Respeto</h3>
+                <p>
+                    Cada persona en el equipo aporta valor. El respeto significa 
+                    reconocer que los demás tienen conocimientos y experiencias 
+                    diferentes, y que esas diferencias son una fortaleza.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Coraje</h3>
+                <p>
+                    Se necesita coraje para hacer lo correcto, no lo fácil. 
+                    Coraje para expresar ideas, para decir "esto no está funcionando", 
+                    para pedir ayuda, y para intentar cosas nuevas sabiendo que 
+                    pueden fallar.
+                </p>
+            </div>
+        </section>
+
+        <section id="roles">
+            <h2 class="section-title">Los Tres Roles</h2>
+
+            <p>
+                Scrum define tres roles distintos, cada uno con responsabilidades 
+                claras pero que colaboran constantemente. Esta distribución del trabajo 
+                evita la sobrecarga de una sola persona y asegura que haya equilibrio 
+                entre el valor del producto y la capacidad del equipo para entregarlo.
+            </p>
+
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-icon">PO</div>
+                    <h4>Product Owner</h4>
+                    <p>Representa al cliente y stakeholders. Decide qué features crear y en qué orden.</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">SM</div>
+                    <h4>Scrum Master</h4>
+                    <p>Facilita y protege al equipo. Elimina impedimentos y asegura que Scrum funcione bien.</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">DT</div>
+                    <h4>Development Team</h4>
+                    <p>Profesionales que construyen el producto. Auto-organizados y multidisciplinarios.</p>
+                </div>
+            </div>
+
+            <h3>Product Owner</h3>
+            <p>
+                El Product Owner es el puente entre el mercado y el equipo de desarrollo. 
+                Entiende las necesidades del cliente, las prioriza, y se asegura de que 
+                el equipo trabaje en lo más valioso. No dice cómo se construye, sino qué 
+                se necesita y por qué.
+            </p>
+
+            <div class="highlight">
+                <p>
+                    El Product Owner gestiona el Product Backlog, una lista vivant de todo 
+                    lo que podría necesitar el producto. Esta lista está constantemente 
+                    ordenada por valor, de modo que los items más importantes siempre están arriba.
+                </p>
+            </div>
+
+            <h3>Scrum Master</h3>
+            <p>
+                El Scrum Master es un líder servicial. No gestiona al equipo ni asigna 
+                tareas. Su trabajo es facilitar, eliminar obstáculos y proteger al equipo 
+                de interrupciones externas. También ayuda al Product Owner con la gestión 
+                del backlog y coach a todos en los principios de Scrum.
+            </p>
+
+            <h3>Development Team</h3>
+            <p>
+                El equipo de desarrollo es auto-organizado. Esto significa que ellos 
+                deciden cómo hacer el trabajo, no se les dice. Son multidisciplinarios, 
+                lo que significa que tienen todas las habilidades necesarias para entregar 
+                un incremento completo sin depender de personas externas.
+            </p>
+        </section>
+
+        <section id="sprint">
+            <h2 class="section-title">El Sprint</h2>
+
+            <p>
+                El Sprint es el corazón de Scrum. Es un período de tiempo fijo, 
+                generalmente de dos semanas, durante el cual el equipo crea un 
+                incremento del producto. Cada Sprint tiene un objetivo claro 
+                llamado Sprint Goal.
+            </p>
+
+            <div class="flow-diagram">
+                <h4>El Ciclo del Sprint</h4>
+                <div class="flow">
+                    <div class="flow-step">Planning</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">Daily Standups</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">Trabajo</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">Review</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">Retrospective</div>
+                </div>
+            </div>
+
+            <p>
+                El Sprint tiene tres características importantes: su longitud es fija 
+                (nunca cambia durante el Sprint), es funcional (el objetivo no cambia), 
+                y es un contenedor (todo el trabajo de Scrum ocurre dentro del Sprint).
+            </p>
+
+            <h3>El Sprint Goal</h3>
+            <p>
+                Cada Sprint tiene un Sprint Goal, un objetivo de negocio que describe 
+                qué valor se espera entregar. Este objetivo da flexibilidad al equipo: 
+                pueden negociar cómo lograrlo dentro del Sprint, siempre que el 
+                objetivo se cumpla.
+            </p>
+
+            <div class="highlight">
+                <p>
+                    Si durante un Sprint el objetivo se vuelve obsoleto o irrelevante, 
+                    el Product Owner puede cancelarlo. Esto es raro, pero es importante 
+                    que el equipo no siga trabajando en algo que ya no tiene sentido.
+                </p>
+            </div>
+
+            <h3>Incremento</h3>
+            <p>
+                Al final de cada Sprint, el equipo entrega un incremento: un pedazo 
+                de producto que funciona y agrega valor. Este incremento debe ser 
+                "Done", es decir, cumplir con la Definition of Done acordada por el equipo. 
+                Un incremento no es solo código; es software potencialmente liberable.
+            </p>
+        </section>
+
+        <section id="eventos">
+            <h2 class="section-title">Eventos de Scrum</h2>
+
+            <p>
+                Scrum define cuatro eventos formales, cada uno con un propósito específico. 
+                Estos eventos existen para crear regularidad en el proceso y minimizar 
+                la necesidad de reuniones no planificadas.
+            </p>
+
+            <div class="concept-block">
+                <h3>Sprint Planning</h3>
+                <p>
+                    Cada Sprint comienza con el Sprint Planning. En esta reunión, el equipo 
+                    decide qué trabajo abordar del Product Backlog y cómo hacerlo. 
+                    El equipo se compromete con el trabajo, no se le asigna.
+                </p>
+                <p>
+                    Esta reunión responde dos preguntas: ¿Qué se va a construir? y 
+                    ¿Cómo lo vamos a construir? La primera define el Sprint Goal, 
+                    la segunda crea el plan de cómo lograrlo.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Daily Scrum</h3>
+                <p>
+                    Cada día a la misma hora, el equipo se reúne brevemente. No es 
+                    una reunión de status para un jefe, sino una sincronización 
+                    entre compañeros. Cada persona comparte qué hizo ayer, qué 
+                    hará hoy, y si tiene algún impedimento.
+                </p>
+                <p>
+                    El Daily Scrum es de máximo 15 minutos. Si necesita más tiempo, 
+                    significa que hay problemas que deben resolverse en reuniones 
+                    separadas después del Daily.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Sprint Review</h3>
+                <p>
+                    Al final del Sprint, el equipo demuestra lo que construyó. Esta 
+                    reunión es una muestra del incremento funcionando, no una 
+                    presentación de slides. Los stakeholders pueden ver, tocar 
+                    y probar el software.
+                </p>
+                <p>
+                    La Sprint Review no es solo una demostración. Es una conversación 
+                    sobre el producto: ¿qué funcionó bien? ¿qué我们需要 cambiar? 
+                    ¿qué viene después? El feedback gathered here alimenta el 
+                    siguiente Sprint.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Sprint Retrospective</h3>
+                <p>
+                    Después de la Sprint Review viene la Retrospective. Esta es la 
+                    oportunidad del equipo para reflexionar sobre sí mismo: ¿cómo 
+                    trabajamos juntos? ¿qué salió bien? ¿qué podemos mejorar?
+                </p>
+                <p>
+                    A diferencia de la Sprint Review, que se enfoca en el producto, 
+                    la Retrospective se enfoca en el proceso y las personas. Es 
+                    donde la mejora continua realmente sucede.
+                </p>
+            </div>
+
+            <h3>Backlog Refinement</h3>
+            <p>
+                Aunque no es uno de los cuatro eventos formales, el Backlog Refinement 
+                (o Grooming) es una práctica esencial en Scrum. Es donde el Product 
+                Owner y el equipo revisan items del backlog, los clarifican, 
+                las estiman, y las preparan para futuros Sprints.
+            </p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Reflexión Final</h2>
+
+            <p>
+                Scrum no es solo un conjunto de reglas a seguir. Es una forma de 
+                pensar sobre el trabajo en equipo y la entrega de valor. Su 
+                éxito depende de que las personas lo entiendan de verdad, 
+                no solo de memoria.
+            </p>
+
+            <div class="quote">
+                "Scrum es fácil de entender pero difícil de dominar."
+            </div>
+
+            <p>
+                Los equipos nuevos frecuentemente luchan con la auto-organización, 
+                o con definir claramente el Sprint Goal, o con resistirse a 
+                añadir trabajo durante el Sprint. Estos son desafíos normales. 
+                Scrum requiere práctica y paciencia para implementar realmente bien.
+            </p>
+
+            <p>
+                Lo más importante no es seguir Scrum al pie de la letra, sino 
+                entender por qué existen cada uno de sus elementos. Cuando algo 
+                no funciona, hay que tener el coraje de preguntarse por qué, 
+                y la apertura para cambiarlo.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Scrum - Guía Conceptual</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

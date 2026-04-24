@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación Orientada a Objetos - Guía Completa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #9b59b6;
+            --primary-dark: #8e44ad;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --bg-dark: #1a1a2e;
+            --bg-darker: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background: rgba(155, 89, 182, 0.1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .concept-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(155, 89, 182, 0.2);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .badge-fundamento { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .badge-pilar { background: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+        .badge-patron { background: rgba(243, 156, 18, 0.2); color: #f39c12; }
+
+        .example-block {
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .example-header {
+            background: #161b22;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .example-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .example-title {
+            margin-left: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .example-code {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string { color: #a5d6ff; }
+        .function { color: #d2a8ff; }
+        .type { color: #7ee787; }
+        .comment { color: #8b949e; }
+        .number { color: #79c0ff; }
+        .class-name { color: #ffa657; }
+        .method { color: #d2a8ff; }
+
+        .principle-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .principle-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .principle-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .diagram {
+            background: var(--bg-darker);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid var(--border);
+        }
+
+        .diagram .box {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            margin: 0.25rem;
+        }
+
+        .diagram .arrow {
+            color: var(--accent);
+            margin: 0 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-darker);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            nav ul { gap: 1rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+            .two-columns { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">OOP</div>
+        </div>
+        <h1>Programación Orientada a Objetos</h1>
+        <p class="subtitle">Guía completa de conceptos fundamentales</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#clases-objetos">Clases y Objetos</a></li>
+            <li><a href="#encapsulamiento">Encapsulamiento</a></li>
+            <li><a href="#herencia">Herencia</a></li>
+            <li><a href="#polimorfismo">Polimorfismo</a></li>
+            <li><a href="#abstraccion">Abstracción</a></li>
+            <li><a href="#interfaces">Interfaces</a></li>
+            <li><a href="#principios">Principios SOLID</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="introduccion">
+            <h2 class="section-title">Introducción a la POO</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                La Programación Orientada a Objetos (POO) es un paradigma que organiza el software como una colección de objetos que contienen datos y comportamiento.
+            </p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">O</div>
+                    <div>
+                        <strong>Objetos</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Entidades con estado y comportamiento</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">C</div>
+                    <div>
+                        <strong>Clases</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Plantillas para crear objetos</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">M</div>
+                    <div>
+                        <strong>Mensajes</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Comunicación entre objetos</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">H</div>
+                    <div>
+                        <strong>Herencia</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Relación entre clases</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="principle-card" style="margin-top: 1.5rem;">
+                <h3>Los 4 Pilares de la POO</h3>
+                <div class="two-columns">
+                    <div>
+                        <p><strong style="color: var(--primary);">Encapsulamiento:</strong> Ocultar detalles internos</p>
+                        <p><strong style="color: var(--primary);">Herencia:</strong> Reutilizar código entre clases</p>
+                    </div>
+                    <div>
+                        <p><strong style="color: var(--primary);">Polimorfismo:</strong> Un interfaz, múltiples formas</p>
+                        <p><strong style="color: var(--primary);">Abstracción:</strong> Simplificar la complejidad</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>¿Por qué usar POO?</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">ventajas.txt</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">✓ Reutilización de código</span>
+<span class="comment">✓ Mantenibilidad del software</span>
+<span class="comment">✓ Modelo natural del mundo real</span>
+<span class="comment">✓ Facilita el trabajo en equipo</span>
+<span class="comment">✓ Modularidad y organización</span>
+<span class="comment">✓ Fácil de depurar y extender</span></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="clases-objetos">
+            <h2 class="section-title">Clases y Objetos</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Una clase es un plano o molde para crear objetos. Un objeto es una instancia de una clase.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <span class="badge badge-fundamento">Fundamento</span>
+                    <h3>Clase Básica</h3>
+                    <p>Estructura de una clase con propiedades y métodos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">Persona.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Persona</span> {
+  <span class="comment">// Propiedades (atributos)</span>
+  nombre: <span class="type">string</span>;
+  edad: <span class="type">number</span>;
+  
+  <span class="comment">// Constructor</span>
+  <span class="function">constructor</span>(nombre: <span class="type">string</span>, edad: <span class="type">number</span>) {
+    <span class="keyword">this</span>.nombre = nombre;
+    <span class="keyword">this</span>.edad = edad;
+  }
+  
+  <span class="comment">// Método</span>
+  <span class="function">saludar</span>(): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">`Hola, soy </span><span class="string">${<span class="keyword">this</span>.nombre}</span><span class="string">`</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-fundamento">Fundamento</span>
+                    <h3>Crear Objetos</h3>
+                    <p>Instanciar una clase para crear objetos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">main.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Crear instancias de la clase Persona</span>
+<span class="keyword">const</span> persona1 = <span class="keyword">new</span> <span class="type">Persona</span>(<span class="string">"Ana"</span>, <span class="number">25</span>);
+<span class="keyword">const</span> persona2 = <span class="keyword">new</span> <span class="type">Persona</span>(<span class="string">"Carlos"</span>, <span class="number">30</span>);
+
+<span class="function">console.log</span>(persona1.<span class="function">saludar</span>()); <span class="comment">// "Hola, soy Ana"</span>
+<span class="function">console.log</span>(persona2.<span class="function">saludar</span>()); <span class="comment">// "Hola, soy Carlos"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-fundamento">Fundamento</span>
+                    <h3>Constructor Parametrizado</h3>
+                    <p>Uso de modificadores de acceso en el constructor.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">Auto.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Auto</span> {
+  <span class="comment">// Parámetros públicos en el constructor</span>
+  <span class="function">constructor</span>(
+    <span class="keyword">public</span> marca: <span class="type">string</span>,
+    <span class="keyword">public</span> modelo: <span class="type">string</span>,
+    <span class="keyword">private</span> kilometros: <span class="type">number</span> = <span class="number">0</span>
+  ) {}
+
+  <span class="function">conducir</span>(km: <span class="type">number</span>): <span class="type">void</span> {
+    <span class="keyword">this</span>.kilometros += km;
+  }
+
+  <span class="function">getKilometros</span>(): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.kilometros;
+  }
+}
+
+<span class="keyword">const</span> miAuto = <span class="keyword">new</span> <span class="type">Auto</span>(<span class="string">"Toyota"</span>, <span class="string">"Corolla"</span>);
+miAuto.<span class="function">conducir</span>(<span class="number">100</span>);</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-fundamento">Fundamento</span>
+                    <h3>Properties (Getters/Setters)</h3>
+                    <p>Controlar el acceso a las propiedades.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">Cuenta.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">CuentaBancaria</span> {
+  <span class="keyword">private</span> _saldo: <span class="type">number</span> = <span class="number">0</span>;
+
+  <span class="function">get</span> <span class="method">saldo</span>(): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>._saldo;
+  }
+
+  <span class="function">set</span> <span class="method">saldo</span>(valor: <span class="type">number</span>) {
+    <span class="keyword">if</span> (valor < <span class="number">0</span>) {
+      <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">"No puede ser negativo"</span>);
+    }
+    <span class="keyword">this</span>._saldo = valor;
+  }
+
+  <span class="function">depositar</span>(monto: <span class="type">number</span>): <span class="type">void</span> {
+    <span class="keyword">this</span>.saldo += monto;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="encapsulamiento">
+            <h2 class="section-title">Encapsulamiento</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                El encapsulamiento restringe el acceso directo a los datos de un objeto y solo permite修改 a través de métodos definidos.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Modificadores de Acceso</h3>
+                    <p>Controlan la visibilidad de miembros de una clase.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">modificadores.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Ejemplo</span> {
+  <span class="keyword">public</span> publica: <span class="type">string</span>;    <span class="comment">// Accesible desde cualquier lugar</span>
+  <span class="keyword">protected</span> protegida: <span class="type">string</span>; <span class="comment">// Accesible en clase y subclases</span>
+  <span class="keyword">private</span> privada: <span class="type">string</span>;   <span class="comment">// Solo en esta clase</span>
+  <span class="keyword">readonly</span> soloLectura: <span class="type">string</span>; <span class="comment">// No se puede modificar</span>
+
+  <span class="function">constructor</span>() {
+    <span class="keyword">this</span>.publica = <span class="string">"Todos ven esto"</span>;
+    <span class="keyword">this</span>.protegida = <span class="string">"Subclases ven esto"</span>;
+    <span class="keyword">this</span>.privada = <span class="string">"Solo la clase ve esto"</span>;
+    <span class="keyword">this</span>.soloLectura = <span class="string">"No cambia"</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Ejemplo Práctico</h3>
+                    <p>Clase con datos protegidos y métodos de acceso.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">Usuario.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Usuario</span> {
+  <span class="keyword">private</span> _password: <span class="type">string</span>;
+  
+  <span class="function">constructor</span>(
+    <span class="keyword">public</span> nombre: <span class="type">string</span>,
+    <span class="keyword">private</span> email: <span class="type">string</span>
+  ) {
+    <span class="keyword">this</span>._password = <span class="string">"default123"</span>;
+  }
+
+  <span class="function">cambiarPassword</span>(nueva: <span class="type">string</span>): <span class="type">boolean</span> {
+    <span class="keyword">if</span> (nueva.<span class="function">length</span> < <span class="number">8</span>) {
+      <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">this</span>._password = nueva;
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+  }
+
+  <span class="function">verificarPassword</span>(pwd: <span class="type">string</span>): <span class="type">boolean</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>._password === pwd;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="principle-card">
+                <h3>¿Por qué es importante?</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">1</div>
+                        <div>
+                            <strong>Protección de datos</strong>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Evita cambios no válidos</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">2</div>
+                        <div>
+                            <strong>Validación</strong>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Controla cómo se modifican los datos</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">3</div>
+                        <div>
+                            <strong>Flexibilidad</strong>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Cambia implementación sin afectar usuarios</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="herencia">
+            <h2 class="section-title">Herencia</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                La herencia permite crear una nueva clase basada en una existente, heredando sus propiedades y métodos.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Herencia Básica</h3>
+                    <p>Una clase hija hereda de una clase padre.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">herencia.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="comment">// Clase padre</span>
+<span class="keyword">class</span> <span class="class-name">Animal</span> {
+  <span class="function">constructor</span>(<span class="keyword">public</span> nombre: <span class="type">string</span>) {}
+
+  <span class="function">hablar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Sonido"</span>);
+  }
+}
+
+<span class="comment">// Clase hija</span>
+<span class="keyword">class</span> <span class="class-name">Perro</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+  <span class="function">hablar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Guau!"</span>);
+  }
+}
+
+<span class="keyword">const</span> perro = <span class="keyword">new</span> <span class="type">Perro</span>(<span class="string">"Rex"</span>);
+perro.<span class="function">hablar</span>(); <span class="comment">// "Guau!"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Super y Override</h3>
+                    <p>Acceder a la clase padre y sobrescribir métodos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">super.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Empleado</span> {
+  <span class="function">constructor</span>(
+    <span class="keyword">public</span> nombre: <span class="type">string</span>,
+    <span class="keyword">protected</span> salario: <span class="type">number</span>
+  ) {}
+
+  <span class="function">calcularBonificacion</span>(): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.salario * <span class="number">0.1</span>;
+  }
+}
+
+<span class="keyword">class</span> <span class="class-name">Gerente</span> <span class="keyword">extends</span> <span class="type">Empleado</span> {
+  <span class="function">constructor</span>(nombre: <span class="type">string</span>, salario: <span class="type">number</span>, <span class="keyword">public</span> departamento: <span class="type">string</span>) {
+    <span class="keyword">super</span>(nombre, salario);
+  }
+
+  <span class="function">calcularBonificacion</span>(): <span class="type">number</span> {
+    <span class="comment">// Llama al método del padre y añade más</span>
+    <span class="keyword">return</span> <span class="keyword">super</span>.<span class="function">calcularBonificacion</span>() * <span class="number">2</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Clases Abstractas</h3>
+                    <p>Clases que no se pueden instanciar directamente.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">abstract.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">abstract class</span> <span class="class-name">Figura</span> {
+  <span class="keyword">abstract</span> <span class="function">calcularArea</span>(): <span class="type">number</span>;
+  
+  <span class="function">mostrarInfo</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">`Área: </span><span class="string">${<span class="keyword">this</span>.<span class="function">calcularArea</span>()}</span><span class="string">`</span>);
+  }
+}
+
+<span class="keyword">class</span> <span class="class-name">Rectangulo</span> <span class="keyword">extends</span> <span class="type">Figura</span> {
+  <span class="function">constructor</span>(<span class="keyword">public</span> ancho: <span class="type">number</span>, <span class="keyword">public</span> alto: <span class="type">number</span>) {
+    <span class="keyword">super</span>();
+  }
+
+  <span class="function">calcularArea</span>(): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.ancho * <span class="keyword">this</span>.alto;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Herencia Múltiple</h3>
+                    <p>Una clase puede implementar múltiples interfaces.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">multi.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">Volador</span> {
+  <span class="function">volar</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">Nadador</span> {
+  <span class="function">nadar</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">Pato</span> <span class="keyword">implements</span> <span class="type">Volador</span>, <span class="type">Nadador</span> {
+  <span class="function">volar</span>(): <span class="type">void</span> { <span class="function">console.log</span>(<span class="string">"Volando"</span>); }
+  <span class="function">nadar</span>(): <span class="type">void</span> { <span class="function">console.log</span>(<span class="string">"Nadando"</span>); }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="polimorfismo">
+            <h2 class="section-title">Polimorfismo</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                El polimorfismo permite que objetos de diferentes clases respondan al mismo mensaje de maneras diferentes.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Polimorfismo con Herencia</h3>
+                    <p>Mismo método, diferentes implementaciones.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">polimorfismo.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Forma</span> {
+  <span class="keyword">abstract</span> <span class="function">dibujar</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">Circulo</span> <span class="keyword">extends</span> <span class="type">Forma</span> {
+  <span class="function">dibujar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Dibujando círculo"</span>);
+  }
+}
+
+<span class="keyword">class</span> <span class="class-name">Cuadrado</span> <span class="keyword">extends</span> <span class="type">Forma</span> {
+  <span class="function">dibujar</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"Dibujando cuadrado"</span>);
+  }
+}
+
+<span class="keyword">function</span> <span class="function">renderizar</span>(forma: <span class="type">Forma</span>): <span class="type">void</span> {
+  forma.<span class="function">dibujar</span>();
+}
+
+<span class="function">renderizar</span>(<span class="keyword">new</span> <span class="type">Circulo</span>());  <span class="comment">// "Dibujando círculo"</span>
+<span class="function">renderizar</span>(<span class="keyword">new</span> <span class="type">Cuadrado</span>()); <span class="comment">// "Dibujando cuadrado"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Sobrecarga de Métodos</h3>
+                    <p>Múltiples firmas para el mismo método.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">sobrecarga.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Calculadora</span> {
+  <span class="comment">// Sobrecarga de métodos</span>
+  <span class="function">sumar</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+  <span class="function">sumar</span>(a: <span class="type">string</span>, b: <span class="type">string</span>): <span class="type">string</span>;
+  <span class="function">sumar</span>(a: <span class="type">any</span>, b: <span class="type">any</span>): <span class="type">any</span> {
+    <span class="keyword">return</span> a + b;
+  }
+}
+
+<span class="keyword">const</span> calc = <span class="keyword">new</span> <span class="type">Calculadora</span>();
+calc.<span class="function">sumar</span>(<span class="number">1</span>, <span class="number">2</span>);           <span class="comment">// 3</span>
+calc.<span class="function">sumar</span>(<span class="string">"Hola"</span>, <span class="string">" Mundo"</span>);   <span class="comment">// "Hola Mundo"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Casting de Tipos</h3>
+                    <p>Convertir entre tipos de forma segura.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">casting.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Gato</span> {
+  <span class="function">maullar</span>(): <span class="type">void</span> { <span class="function">console.log</span>(<span class="string">"Miau"</span>); }
+}
+
+<span class="keyword">class</span> <span class="class-name">Perro</span> {
+  <span class="function">ladrar</span>(): <span class="type">void</span> { <span class="function">console.log</span>(<span class="string">"Guau"</span>); }
+}
+
+<span class="keyword">const</span> animal: <span class="type">Gato</span> | <span class="type">Perro</span> = <span class="keyword">new</span> <span class="type">Gato</span>();
+
+<span class="comment">// Type guard</span>
+<span class="keyword">if</span> (animal <span class="keyword">instanceof</span> <span class="type">Gato</span>) {
+  animal.<span class="function">maullar</span>();
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="abstraccion">
+            <h2 class="section-title">Abstracción</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                La abstracción oculta los detalles complejos y solo muestra lo esencial, simplificando la interacción con los objetos.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <span class="badge badge-pilar">Pilar</span>
+                    <h3>Clase Abstracta</h3>
+                    <p>Define un contrato sin implementación completa.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">vehiculo.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">abstract class</span> <span class="class-name">Vehiculo</span> {
+  <span class="function">constructor</span>(<span class="keyword">public</span> marca: <span class="type">string</span>) {}
+
+  <span class="keyword">abstract</span> <span class="function">encender</span>(): <span class="type">void</span>;
+  
+  <span class="function">obtenerInfo</span>(): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">`Vehículo marca: </span><span class="string">${<span class="keyword">this</span>.marca}</span><span class="string">`</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Implementación Práctica</h3>
+                    <p>Las subclases implementan los métodos abstractos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">auto.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">class</span> <span class="class-name">Auto</span> <span class="keyword">extends</span> <span class="type">Vehiculo</span> {
+  <span class="function">encender</span>(): <span class="type">void</span> {
+    <span class="function">console.log</span>(<span class="string">"`</span><span class="string">${<span class="keyword">this</span>.marca}</span><span class="string">: Motor encendido`"</span>);
+  }
+}
+
+<span class="keyword">const</span> miAuto = <span class="keyword">new</span> <span class="type">Auto</span>(<span class="string">"Honda"</span>);
+miAuto.<span class="function">encender</span>(); <span class="comment">// "Honda: Motor encendido"</span>
+<span class="function">console.log</span>(miAuto.<span class="function">obtenerInfo</span>()); <span class="comment">// "Vehículo marca: Honda"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Interfaz como Abstracción</h3>
+                    <p>Las interfaces definen contratos sin implementación.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">reproductor.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">Reproductor</span> {
+  <span class="function">reproducir</span>(): <span class="type">void</span>;
+  <span class="function">pausar</span>(): <span class="type">void</span>;
+  <span class="function">detener</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">Radio</span> <span class="keyword">implements</span> <span class="type">Reproductor</span> {
+  <span class="function">reproducir</span>(): <span class="type">void</span> { <span class="comment">/* lógica */</span> }
+  <span class="function">pausar</span>(): <span class="type">void</span> { <span class="comment">/* lógica */</span> }
+  <span class="function">detener</span>(): <span class="type">void</span> { <span class="comment">/* lógica */</span> }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="principle-card">
+                <h3>Abstracción vs Encapsulamiento</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Abstracción</th>
+                            <th>Encapsulamiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oculta qué hace un objeto</td>
+                            <td>Oculta cómo lo hace</td>
+                        </tr>
+                        <tr>
+                            <td>Se centra en la interfaz</td>
+                            <td>Se centra en la implementación</td>
+                        </tr>
+                        <tr>
+                            <td>Nivel de clase/interfaz</td>
+                            <td>Nivel de miembro/dato</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="interfaces">
+            <h2 class="section-title">Interfaces</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Las interfaces definen contratos que las clases deben cumplir, estableciendo qué métodos deben implementarse.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Interface Básica</h3>
+                    <p>Definir la forma que debe tener una clase.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">Comparable.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">Comparable</span> {
+  <span class="function">comparar</span>(otro: <span class="type">Comparable</span>): <span class="type">number</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">Numero</span> <span class="keyword">implements</span> <span class="type">Comparable</span> {
+  <span class="function">constructor</span>(<span class="keyword">public</span> valor: <span class="type">number</span>) {}
+
+  <span class="function">comparar</span>(otro: <span class="type">Comparable</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.valor - (<span class="type">Numero</span> as <span class="keyword">any</span>).<span class="function">prototipo</span>.<span class="function">valor</span>;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Propiedades Opcionales</h3>
+                    <p>Propiedades que pueden estar o no presentes.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">usuario.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">Usuario</span> {
+  id: <span class="type">number</span>;
+  nombre: <span class="type">string</span>;
+  email?: <span class="type">string</span>; <span class="comment">// opcional</span>
+  telefono?: <span class="type">string</span>; <span class="comment">// opcional</span>
+}
+
+<span class="keyword">const</span> usuario1: <span class="type">Usuario</span> = { id: <span class="number">1</span>, nombre: <span class="string">"Ana"</span> };
+<span class="keyword">const</span> usuario2: <span class="type">Usuario</span> = { 
+  id: <span class="number">2</span>, 
+  nombre: <span class="string">"Carlos"</span>, 
+  email: <span class="string">"carlos@email.com"</span> 
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Herencia de Interfaces</h3>
+                    <p>Combinar múltiples interfaces.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">extender.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">Serializable</span> {
+  <span class="function">serializar</span>(): <span class="type">string</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">Calculable</span> {
+  <span class="function">calcularTotal</span>(): <span class="type">number</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">Pedido</span> <span class="keyword">extends</span> <span class="type">Serializable</span>, <span class="type">Calculable</span> {
+  id: <span class="type">number</span>;
+  items: <span class="type">string</span>[];
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Interface para Callbacks</h3>
+                    <p>Definir la forma de funciones de callback.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">eventos.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">ManejadorEvento</span> {
+  (evento: <span class="type">Event</span>): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">Boton</span> {
+  <span class="keyword">private</span> manejadores: <span class="type">ManejadorEvento</span>[] = [];
+
+  <span class="function">onClick</span>(manejador: <span class="type">ManejadorEvento</span>): <span class="type">void</span> {
+    <span class="keyword">this</span>.manejadores.<span class="function">push</span>(manejador);
+  }
+
+  <span class="function">click</span>(): <span class="type">void</span> {
+    <span class="keyword">this</span>.manejadores.<span class="function">forEach</span>(h => h(<span class="keyword">new</span> <span class="type">Event</span>(<span class="string">"click"</span>)));
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="principios">
+            <h2 class="section-title">Principios SOLID</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Los principios SOLID son guidelines para crear software orientado a objetos mantenible y extensible.
+            </p>
+
+            <div class="concept-card" style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--accent);">S - Single Responsibility Principle (SRP)</h3>
+                <p>Una clase debe tener una sola razón para cambiar.</p>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">Bien: responsabilidad única</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// MAL: Clase con múltiples responsabilidades</span>
+<span class="keyword">class</span> <span class="class-name">Usuario</span> {
+  nombre: <span class="type">string</span>;
+  
+  <span class="function">guardar</span>() { <span class="comment">/* guardar en BD */</span> }
+  <span class="function">enviarEmail</span>() { <span class="comment">/* enviar email */</span> }
+  <span class="function">generarReporte</span>() { <span class="comment">/* generar PDF */</span> }
+}
+
+<span class="comment">// BIEN: Responsabilidad única</span>
+<span class="keyword">class</span> <span class="class-name">Usuario</span> { nombre: <span class="type">string</span>; }
+<span class="keyword">class</span> <span class="class-name">UsuarioRepositorio</span> { <span class="function">guardar</span>(u: <span class="type">Usuario</span>) {} }
+<span class="keyword">class</span> <span class="class-name">EmailService</span> { <span class="function">enviar</span>(u: <span class="type">Usuario</span>) {} }
+<span class="keyword">class</span> <span class="class-name">ReporteService</span> { <span class="function">generar</span>(u: <span class="type">Usuario</span>) {} }</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card" style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--accent);">O - Open/Closed Principle (OCP)</h3>
+                <p>Las clases deben estar abiertas para extensión pero cerradas para modificación.</p>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">Extensión sin modificación</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// Usar herencia y polimorfismo</span>
+<span class="keyword">abstract class</span> <span class="class-name">Descuento</span> {
+  <span class="keyword">abstract</span> <span class="function">aplicar</span>(precio: <span class="type">number</span>): <span class="type">number</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">DescuentoNavidad</span> <span class="keyword">extends</span> <span class="type">Descuento</span> {
+  <span class="function">aplicar</span>(precio: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> precio * <span class="number">0.8</span>;
+  }
+}
+
+<span class="keyword">class</span> <span class="class-name">DescuentoBlackFriday</span> <span class="keyword">extends</span> <span class="type">Descuento</span> {
+  <span class="function">aplicar</span>(precio: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> precio * <span class="number">0.5</span>;
+  }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card" style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--accent);">L - Liskov Substitution Principle (LSP)</h3>
+                <p>Los objetos de una subclase deben poder sustituir a los de la clase padre sin afectar la corrección del programa.</p>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">Sustitución correcta</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="keyword">interface</span> <span class="type">Ave</span> {
+  <span class="function">volar</span>(): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="class-name">Pinguino</span> <span class="keyword">implements</span> <span class="type">Ave</span> {
+  <span class="function">volar</span>(): <span class="type">void</span> {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">"Los pingüinos no vuelan"</span>);
+  }
+}
+
+<span class="comment">// Mejor: Separar en interfaces</span>
+<span class="keyword">interface</span> <span class="type">Volador</span> { <span class="function">volar</span>(): <span class="type">void</span>; }
+<span class="keyword">interface</span> <span class="type">Nadador</span> { <span class="function">nadar</span>(): <span class="type">void</span>; }</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card" style="margin-bottom: 1.5rem;">
+                <h3 style="color: var(--accent);">I - Interface Segregation Principle (ISP)</h3>
+                <p>Es mejor tener muchas interfaces específicas que una interfaz general.</p>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">Interfaces pequeñas y específicas</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// MAL: Interfaz grande</span>
+<span class="keyword">interface</span> <span class="type">MaqFull</span> {
+  <span class="function">imprimir</span>(): <span class="type">void</span>;
+  <span class="function">escanear</span>(): <span class="type">void</span>;
+  <span class="function">fax</span>(): <span class="type">void</span>;
+}
+
+<span class="comment">// BIEN: Interfaces separadas</span>
+<span class="keyword">interface</span> <span class="type">Impresora</span> { <span class="function">imprimir</span>(): <span class="type">void</span>; }
+<span class="keyword">interface</span> <span class="type">Escaner</span> { <span class="function">escanear</span>(): <span class="type">void</span>; }
+<span class="keyword">interface</span> <span class="type">Fax</span> { <span class="function">fax</span>(): <span class="type">void</span>; }</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 style="color: var(--accent);">D - Dependency Inversion Principle (DIP)</h3>
+                <p>Depender de abstracciones, no de concreciones. Las clases de alto nivel no deben depender de clases de bajo nivel.</p>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">Inyección de dependencias</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// Abstracción</span>
+<span class="keyword">interface</span> <span class="type">Notificador</span> {
+  <span class="function">enviar</span>(mensaje: <span class="type">string</span>): <span class="type">void</span>;
+}
+
+<span class="comment">// Implementación</span>
+<span class="keyword">class</span> <span class="class-name">NotificadorEmail</span> <span class="keyword">implements</span> <span class="type">Notificador</span> {
+  <span class="function">enviar</span>(mensaje: <span class="type">string</span>): <span class="type">void</span> { <span class="comment">/* email */</span> }
+}
+
+<span class="comment">// Clase de alto nivel depende de abstracción</span>
+<span class="keyword">class</span> <span class="class-name">OrdenService</span> {
+  <span class="function">constructor</span>(<span class="keyword">private</span> notificador: <span class="type">Notificador</span>) {}
+
+  <span class="function">crearOrden</span>() {
+    <span class="keyword">this</span>.notificador.<span class="function">enviar</span>(<span class="string">"Orden creada"</span>);
+  }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Resumen de Conceptos</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Descripción</th>
+                        <th>Beneficio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Clase</td>
+                        <td>Molde para crear objetos</td>
+                        <td>Organización y reutilización</td>
+                    </tr>
+                    <tr>
+                        <td>Objeto</td>
+                        <td>Instancia de una clase</td>
+                        <td>Entidad con estado y comportamiento</td>
+                    </tr>
+                    <tr>
+                        <td>Encapsulamiento</td>
+                        <td>Ocultar detalles internos</td>
+                        <td>Protección y validación de datos</td>
+                    </tr>
+                    <tr>
+                        <td>Herencia</td>
+                        <td>Relación padre-hijo entre clases</td>
+                        <td>Reutilización de código</td>
+                    </tr>
+                    <tr>
+                        <td>Polimorfismo</td>
+                        <td>Multiples formas de un método</td>
+                        <td>Flexibilidad y extensibilidad</td>
+                    </tr>
+                    <tr>
+                        <td>Abstracción</td>
+                        <td>Simplificar la complejidad</td>
+                        <td>Facilita el uso de sistemas complejos</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>Programación Orientada a Objetos - Guía de Referencia</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git - Sistema de Control de Versiones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #f05032;
+            --primary-dark: #c93c26;
+            --bg-dark: #1a1a2e;
+            --bg-darker: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary) 0%, #e36234 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        nav {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: rgba(240, 80, 50, 0.1);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .concept-block {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .concept-block h3 {
+            margin-top: 0;
+        }
+
+        .highlight {
+            background: rgba(240, 80, 50, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+        }
+
+        .highlight p {
+            margin-bottom: 0;
+        }
+
+        .quote {
+            font-style: italic;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            background: var(--bg-darker);
+            margin: 2rem 0;
+        }
+
+        .diagram {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .diagram h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .commit-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .commit-box {
+            background: var(--bg-darker);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            min-width: 100px;
+        }
+
+        .commit-arrow {
+            color: var(--primary);
+        }
+
+        .workflow-diagram {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .area {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            font-weight: 600;
+        }
+
+        .area-working { background: rgba(240, 80, 50, 0.2); border: 1px solid var(--primary); }
+        .area-staging { background: rgba(240, 165, 0, 0.2); border: 1px solid #f0a500; }
+        .area-repo { background: rgba(56, 161, 105, 0.2); border: 1px solid #38a169; }
+
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .flow-arrow-v {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+
+        .cmd {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-darker);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            display: inline-block;
+            margin: 0.25rem 0;
+        }
+
+        .branch-visual {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .branch-visual h4 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .branches {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .branch-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .branch-name {
+            background: var(--bg-darker);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .branch-main .branch-name { border: 2px solid #38a169; color: #38a169; }
+        .branch-feature .branch-name { border: 2px solid var(--primary); color: var(--primary); }
+
+        .commit-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .branch-main .dot { background: #38a169; }
+
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            nav ul { gap: 1rem; }
+            main { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-icon">G</div>
+        <h1>Git</h1>
+        <p class="subtitle">Sistema de control de versiones distribuido</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#que-es">¿Qué es?</a></li>
+            <li><a href="#fundamentos">Fundamentos</a></li>
+            <li><a href="#areas">Áreas de Trabajo</a></li>
+            <li><a href="#commits">Commits</a></li>
+            <li><a href="#ramas">Ramas</a></li>
+            <li><a href="#workflow">Workflow</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="que-es">
+            <h2 class="section-title">¿Qué es Git?</h2>
+
+            <p>
+                Git es un sistema de control de versiones que permite registrar los 
+                cambios en archivos a lo largo del tiempo. Pero no es solo un 
+                registro de cambios: es una máquina del tiempo para tu código, 
+                un laboratorio de experimentación, y un sistema de colaboración 
+                todo en uno.
+            </p>
+
+            <p>
+                La diferencia fundamental entre Git y otros sistemas de control de 
+                versiones es su arquitectura distribuida. Cada desarrollador tiene 
+                una copia completa del repositorio, incluyendo toda su historia. 
+                Esto significa que puedes trabajar sin conexión, comparar cambios 
+                localmente, y colaborar de formas que no eran posibles antes.
+            </p>
+
+            <div class="quote">
+                "Git thinks of data as a stream of snapshots of a miniature filesystem."
+            </div>
+
+            <p>
+                Cada vez que guardas un estado en Git ( haces un commit ), él toma 
+                una foto de todos tus archivos en ese momento y guarda una 
+                referencia a esa foto. Si un archivo no cambió, Git no lo almacena 
+                de nuevo, solo crea un enlace al archivo idéntico anterior.
+            </p>
+        </section>
+
+        <section id="fundamentos">
+            <h2 class="section-title">Conceptos Fundamentales</h2>
+
+            <div class="concept-block">
+                <h3>Repositorio</h3>
+                <p>
+                    Un repositorio es simplemente una carpeta que Git rastrea. Contiene 
+                    todos los archivos de tu proyecto y la historia de sus cambios. 
+                    Puede ser local (en tu computadora) o remoto (en un servidor como 
+                    GitHub o GitLab).
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Snapshots (Instantáneas)</h3>
+                <p>
+                    A diferencia de otros sistemas que guardan diferencias (deltas), 
+                    Git guarda instantáneas completas del estado de tu proyecto 
+                    en cada commit. Esto hace que operaciones como cambiar de 
+                    rama o revisar historial sean extremadamente rápidas.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Hash SHA-1</h3>
+                <p>
+                    Cada objeto en Git se identifica con un hash SHA-1 de 40 caracteres. 
+                    Este hash es único para cada contenido, lo que significa que Git 
+                    puede detectar corrupiones o conflictos sin ambigüedad.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Integridad</h3>
+                <p>
+                    Todo en Git es verificable mediante sumas de verificación (checksums). 
+                    No puedes perder información durante una transferencia o corrupión 
+                    de disco sin que Git lo detecte.
+                </p>
+            </div>
+        </section>
+
+        <section id="areas">
+            <h2 class="section-title">Las Tres Áreas</h2>
+
+            <p>
+                Git organiza tu trabajo en tres áreas conceptually diferentes. 
+                Entender cómo se mueven los archivos entre ellas es fundamental 
+                para dominar Git.
+            </p>
+
+            <div class="workflow-diagram">
+                <div class="flow-row">
+                    <div class="area area-working">Directorio de Trabajo</div>
+                    <span class="flow-arrow-v">→</span>
+                    <div class="area area-staging">Área de Preparación (Staging)</div>
+                    <span class="flow-arrow-v">→</span>
+                    <div class="area area-repo">Repositorio Git</div>
+                </div>
+            </div>
+
+            <div class="concept-block">
+                <h3>Directorio de Trabajo (Working Directory)</h3>
+                <p>
+                    Es la carpeta donde trabajas normalmente. Aquí ves y editas 
+                    tus archivos. Los cambios aquí aún no están siendo rastreados 
+                    por Git, o pueden estar modificados respecto a la última foto 
+                    guardada.
+                </p>
+                <p>
+                    El directorio de trabajo es una copia de una versión específica 
+                    del proyecto, extraída del repositorio para que puedas trabajar 
+                    sobre ella.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Área de Preparación (Staging Area)</h3>
+                <p>
+                    El área de preparación, también llamada índice, es un archivo 
+                    que almacena qué irá en tu próximo commit. Es como una lista 
+                    de compras: preparas exactamente qué quieres incluir antes 
+                    de confirmar los cambios.
+                </p>
+                <p>
+                    Esta área te da control granular sobre qué cambia exactamente 
+                    en cada commit. Puedes incluir solo ciertos archivos, o incluso 
+                    solo partes de un archivo.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Repositorio Git</h3>
+                <p>
+                    Aquí Git guarda las instantáneas de forma permanente. Es la 
+                    base de datos de tu proyecto, donde toda la historia de commits 
+                    vive. Cuando говорят de "guardar" en Git, se refiere a mover 
+                    cambios del área de preparación al repositorio.
+                </p>
+            </div>
+
+            <div class="highlight">
+                <p>
+                    El flujo básico es: modificar archivos en el directorio de trabajo, 
+                    añadir los cambios que quieres al área de preparación, y luego 
+                    confirmar (commit) esos cambios al repositorio.
+                </p>
+            </div>
+        </section>
+
+        <section id="commits">
+            <h2 class="section-title">Commits</h2>
+
+            <p>
+                Un commit es la unidad básica de trabajo en Git. Representa una 
+                foto del proyecto en un momento específico. Cada commit tiene 
+                un mensaje que describe qué cambios se hicieron y por qué.
+            </p>
+
+            <div class="diagram">
+                <h4>Anatomía de un Commit</h4>
+                <div style="text-align: left; padding: 1rem;">
+                    <p><strong style="color: var(--primary);">Commit Hash:</strong> <code style="font-family: 'Fira Code'; color: var(--text-secondary);">a1b2c3d4...</code></p>
+                    <p><strong style="color: var(--primary);">Autor:</strong> <code style="font-family: 'Fira Code'; color: var(--text-secondary);">Tu Nombre &lt;tu@email.com&gt;</code></p>
+                    <p><strong style="color: var(--primary);">Fecha:</strong> <code style="font-family: 'Fira Code'; color: var(--text-secondary);">Thu Apr 5 10:30:00 2026</code></p>
+                    <p><strong style="color: var(--primary);">Mensaje:</strong> <code style="font-family: 'Fira Code'; color: var(--text-secondary);">Agregar validación de formulario</code></p>
+                    <p style="margin-top: 1rem;"><strong style="color: var(--primary);">Puntero al commit anterior:</strong> <code style="font-family: 'Fira Code'; color: var(--text-secondary);">parent: a1b2c3d4...</code></p>
+                </div>
+            </div>
+
+            <p>
+                Cada commit指向 un commit anterior (excepto el primero, que no tiene padre). 
+                Esta cadena de commits es lo que forma la historia de tu proyecto.
+            </p>
+
+            <div class="branch-visual">
+                <h4>Cadena de Commits</h4>
+                <div class="branches">
+                    <div class="commit-flow">
+                        <div class="commit-box">commit-3</div>
+                        <span class="commit-arrow">←</span>
+                        <div class="commit-box">commit-2</div>
+                        <span class="commit-arrow">←</span>
+                        <div class="commit-box">commit-1</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Mensajes de Commit</h3>
+            <p>
+                Un buen mensaje de commit es crucial para navegar la historia 
+                del proyecto. Debe ser descriptivo pero conciso, explicando 
+                el "qué" y el "por qué", no el "cómo".
+            </p>
+
+            <div class="highlight">
+                <p>
+                    Un buen mensaje: "Agregar validación de email en formulario de registro" 
+                    <br><br>
+                    Un mal mensaje: "Cambios" o "WIP" o "Fix bug #123"
+                </p>
+            </div>
+        </section>
+
+        <section id="ramas">
+            <h2 class="section-title">Ramas (Branches)</h2>
+
+            <p>
+                Las ramas son una de las características más poderosas de Git. 
+                Una rama es simplemente un puntero móvil a un commit específico. 
+                Cuando creas una nueva rama, Git crea un nuevo puntero que puedes 
+                mover independientemente de otras ramas.
+            </p>
+
+            <p>
+                La rama principal se llama usualmente "main" o "master". Pero no 
+                hay nada especial en ella: es solo otra rama. La diferencia es 
+                que por convención representa la línea de desarrollo estable.
+            </p>
+
+            <div class="branch-visual">
+                <h4>Trabajo en Paralelo con Ramas</h4>
+                <div class="branches">
+                    <div class="branch-line branch-main">
+                        <div class="branch-name">main</div>
+                        <div class="commit-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="branch-line branch-feature">
+                        <div class="branch-name">nueva-funcionalidad</div>
+                        <div class="commit-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-block">
+                <h3>¿Por qué Ramas?</h3>
+                <p>
+                    Las ramas permiten trabajar en paralelo sin interferir con el 
+                    trabajo de otros. Puedes experimentar libremente, saber que 
+                    tu trabajo actual no romperá la versión estable del proyecto. 
+                    Cuando estás satisfecho, fusionas los cambios de vuelta.
+                </p>
+                <p>
+                    Esta forma de trabajar es radicalmente diferente al modelo 
+                    lineal, donde los desarrolladores trabajan en secuencia sobre 
+                    la misma base de código, frecuentemente bloqueándose unos a otros.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Ramas y Punteros</h3>
+                <p>
+                    En Git, crear una rama es increíblemente ligero. No copia archivos, 
+                    no consume mucho espacio. Una rama es simplemente un archivo de 
+                    41 bytes (aproximadamente) que contiene un hash SHA-1.
+                </p>
+                <p>
+                    Cuando haces commits en una rama, el puntero de la rama avanza 
+                    automáticamente. Si creas una rama desde un commit que tenía 
+                    10 archivos idénticos a main, Git no copia nada. Solo crea 
+                    un nuevo puntero al mismo commit.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>HEAD</h3>
+                <p>
+                    HEAD es un puntero especial que indica dónde estás trabajando 
+                    actualmente. Usualmente apunta a una rama, pero también puede 
+                    apuntar directamente a un commit (estado de "detached HEAD").
+                </p>
+            </div>
+        </section>
+
+        <section id="workflow">
+            <h2 class="section-title">Flujo de Trabajo Común</h2>
+
+            <p>
+                No existe un único flujo de trabajo con Git, pero hay patrones 
+                que la mayoría de equipos siguen. El más común involucra una 
+                rama principal protegida y ramas de característica.
+            </p>
+
+            <div class="concept-block">
+                <h3>Git Flow</h3>
+                <p>
+                    Este flujo usa dos ramas principales: main (para releases) y 
+                    develop (para integración). De develop se crean ramas de 
+                    característica que luego vuelven a develop. Las releases 
+                    se fusionan de develop a main.
+                </p>
+                <p>
+                    Este modelo funciona bien para proyectos con ciclos de release 
+                    regulares, pero puede ser overkill para proyectos más simples 
+                    o equipos pequeños.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>GitHub Flow</h3>
+                <p>
+                    Un flujo más simple: solo existe main como rama principal. 
+                    Para trabajar en algo, creas una rama desde main, haces 
+                    tus cambios, y cuando están listos, abres un pull request 
+                    para revisarlos y fusionarlos.
+                </p>
+                <p>
+                    Este modelo requiere que main siempre esté listo para deploy. 
+                    Es ideal para proyectos con integración y deployment continuos.
+                </p>
+            </div>
+
+            <div class="highlight">
+                <h3 style="color: var(--text-primary); margin-top: 0;">El Ciclo Básico</h3>
+                <div style="margin-top: 1rem;">
+                    <p><span class="cmd">git checkout -b nueva-funcionalidad</span> Crear y cambiar a nueva rama</p>
+                    <p><span class="cmd">git add archivo.js</span> Preparar archivos modificados</p>
+                    <p><span class="cmd">git commit -m "Mensaje"</span> Guardar cambios</p>
+                    <p><span class="cmd">git push origin nueva-funcionalidad</span> Subir al remoto</p>
+                    <p><span class="cmd">git pull request</span> Solicitar revisión y fusión</p>
+                </div>
+            </div>
+
+            <h3>Fusión (Merge) vs Rebase</h3>
+            <p>
+                Cuando necesitas combinar trabajo de dos ramas, hay dos formas 
+                principales de hacerlo. Merge crea un commit especial que une 
+                dos historias. Rebase reescribe los commits de una rama como 
+                si hubieran partido de otro punto.
+            </p>
+
+            <div class="concept-block">
+                <h3>Merge</h3>
+                <p>
+                    Merge toma los cambios de una rama y los aplica sobre otra, 
+                    creando un commit de fusión. Preserve la historia original 
+                    y es seguro, pero puede hacer el historial más difícil de seguir.
+                </p>
+            </div>
+
+            <div class="concept-block">
+                <h3>Rebase</h3>
+                <p>
+                    Rebase "reproduce" tus commits como si hubieran sido hechos 
+                    sobre la última versión de la otra rama. Crea un historial 
+                    lineal más limpio, pero reescribe historia, así que nunca 
+                    debe hacerse en ramas compartidas.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Reflexión</h2>
+
+            <p>
+                Git es una herramienta poderosa que cambia fundamentalmente cómo 
+                piensas sobre el desarrollo de software. Con Git, los errores 
+                dejan de ser temibles porque siempre puedes volver atrás. La 
+                experimentación se vuelve segura porque puedes crear ramas 
+                sin riesgo.
+            </p>
+
+            <div class="quote">
+                "Git es como una máquina del tiempo, un laboratorio de experimentación, 
+                y una red social para desarrolladores, todo en uno."
+            </div>
+
+            <p>
+                Dominar Git toma tiempo. Los comandos son simples, pero la 
+                comprensión profunda viene con la práctica. No te preocupes 
+                si al principio cometes errores: Git es muy difícil de romper 
+                algo permanentemente, y los comandos de "deshacer" son generosos.
+            </p>
+
+            <p>
+                Lo más importante no es memorizar cada comando, sino entender 
+                los conceptos fundamentales: cómo Git piensa sobre los datos, 
+                cómo las ramas funcionan, y cómo los cambios fluyen entre áreas. 
+                Con esa base, el resto viene naturalmente.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Git - Guía Conceptual</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

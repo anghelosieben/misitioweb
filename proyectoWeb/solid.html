@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLID - Principios de Diseño de Software</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #1e8449;
+            --bg-dark: #1a1a2e;
+            --bg-darker: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --warning: #e67e22;
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--warning) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .principle-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .principle-card h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .principle-letter {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .principle-card h3 {
+            color: var(--warning);
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .principle-card > p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .example-block {
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .example-header {
+            background: #161b22;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .example-label {
+            background: var(--danger);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .example-label.good {
+            background: var(--success);
+        }
+
+        .example-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .example-title {
+            margin-left: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .example-code {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string { color: #a5d6ff; }
+        .function { color: #d2a8ff; }
+        .type { color: #7ee787; }
+        .comment { color: #8b949e; }
+        .number { color: #79c0ff; }
+        .annotation { color: #79c0ff; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-darker);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .key-point {
+            background: rgba(39, 174, 96, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-point p {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            nav ul { gap: 1rem; }
+            .two-columns { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">SOLID</div>
+        </div>
+        <h1>Principios SOLID</h1>
+        <p class="subtitle">Guidelines para diseño de software orientado a objetos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#srp">S - SRP</a></li>
+            <li><a href="#ocp">O - OCP</a></li>
+            <li><a href="#lsp">L - LSP</a></li>
+            <li><a href="#isp">I - ISP</a></li>
+            <li><a href="#dip">D - DIP</a></li>
+            <li><a href="#resumen">Resumen</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="introduccion">
+            <h2 class="section-title">Introducción</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                SOLID es un acrónimo que representa cinco principios de diseño de software orientados a objetos. Fueron popularizados por Robert C. Martin (Uncle Bob) y ayudan a crear código más mantenible, flexible y extensible.
+            </p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">S</div>
+                    <div>
+                        <strong>Single Responsibility</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Una clase, una responsabilidad</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">O</div>
+                    <div>
+                        <strong>Open/Closed</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Abierto para extensión, cerrado para modificación</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">L</div>
+                    <div>
+                        <strong>Liskov Substitution</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Sustitución sin alterar correctitud</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">I</div>
+                    <div>
+                        <strong>Interface Segregation</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Interfaces específicas, no generales</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">D</div>
+                    <div>
+                        <strong>Dependency Inversion</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Depender de abstracciones</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-point" style="margin-top: 1.5rem;">
+                <p><strong>¿Por qué usar SOLID?</strong></p>
+                <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                    Estos principios ayudan a evitar code smells, reducir complejidad, facilitar el refactoring y hacer el código más testeable y mantenible a largo plazo.
+                </p>
+            </div>
+        </section>
+
+        <section id="srp">
+            <div class="principle-card">
+                <h2>
+                    <span class="principle-letter">S</span>
+                    Single Responsibility Principle
+                </h2>
+                <span class="badge">Responsabilidad Única</span>
+                <p>
+                    Una clase debe tener una sola razón para cambiar. Esto significa que una clase debe tener solo un trabajo o responsabilidad.
+                </p>
+
+                <h3>Problema</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label">MAL</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">Usuario.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="keyword">public class</span> <span class="type">Usuario</span> {
+    <span class="keyword">private</span> <span class="type">String</span> nombre;
+    <span class="keyword">private</span> <span class="type">String</span> email;
+
+    <span class="keyword">public</span> <span class="type">Usuario</span>(<span class="type">String</span> nombre, <span class="type">String</span> email) {
+        <span class="keyword">this</span>.nombre = nombre;
+        <span class="keyword">this</span>.email = email;
+    }
+
+    <span class="comment">// Responsabilidad 1: Persistencia</span>
+    <span class="keyword">public void</span> <span class="function">guardar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Guardando en base de datos..."</span>);
+    }
+
+    <span class="comment">// Responsabilidad 2: Envío de emails</span>
+    <span class="keyword">public void</span> <span class="function">enviarEmail</span>(<span class="type">String</span> mensaje) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Enviando email: "</span> + mensaje);
+    }
+
+    <span class="comment">// Responsabilidad 3: Generación de reportes</span>
+    <span class="keyword">public void</span> <span class="function">generarReporte</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Generando reporte PDF..."</span>);
+    }
+
+    <span class="comment">// Responsabilidad 4: Validación</span>
+    <span class="keyword">public boolean</span> <span class="function">validar</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.email.<span class="function">contains</span>(<span class="string">"@"</span>);
+    }
+}
+
+<span class="comment">// Esta clase tiene 4 razones para cambiar!</span>
+<span class="comment">// Si cambia el formato del reporte, modificamos Usuario</span>
+<span class="comment">// Si cambia el SMTP, modificamos Usuario</span>
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Usuario</span> usuario = <span class="keyword">new</span> <span class="type">Usuario</span>(<span class="string">"Juan"</span>, <span class="string">"juan@email.com"</span>);
+        usuario.<span class="function">guardar</span>();
+        usuario.<span class="function">enviarEmail</span>(<span class="string">"Bienvenido"</span>);
+        usuario.<span class="function">generarReporte</span>();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Solución</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label good">BIEN</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">SRPSolucion.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// SRPSolucion.java</span>
+<span class="comment">// Cada clase tiene UNA responsabilidad</span>
+
+<span class="keyword">public class</span> <span class="type">Usuario</span> {
+    <span class="keyword">private</span> <span class="type">String</span> nombre;
+    <span class="keyword">private</span> <span class="type">String</span> email;
+
+    <span class="keyword">public</span> <span class="type">Usuario</span>(<span class="type">String</span> nombre, <span class="type">String</span> email) {
+        <span class="keyword">this</span>.nombre = nombre;
+        <span class="keyword">this</span>.email = email;
+    }
+
+    <span class="keyword">public</span> <span class="type">String</span> <span class="function">getNombre</span>() { <span class="keyword">return</span> nombre; }
+    <span class="keyword">public</span> <span class="type">String</span> <span class="function">getEmail</span>() { <span class="keyword">return</span> email; }
+}
+
+<span class="keyword">class</span> <span class="type">UsuarioRepositorio</span> {
+    <span class="keyword">public void</span> <span class="function">guardar</span>(<span class="type">Usuario</span> usuario) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Guardando usuario en BD: "</span> + usuario.<span class="function">getNombre</span>());
+    }
+
+    <span class="keyword">public</span> <span class="type">Usuario</span> <span class="function">buscar</span>(<span class="type">String</span> id) {
+        <span class="keyword">return null</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">EmailService</span> {
+    <span class="keyword">public void</span> <span class="function">enviar</span>(<span class="type">Usuario</span> usuario, <span class="type">String</span> mensaje) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Enviando email a "</span> + usuario.<span class="function">getEmail</span>());
+    }
+}
+
+<span class="keyword">class</span> <span class="type">ReporteService</span> {
+    <span class="keyword">public void</span> <span class="function">generar</span>(<span class="type">Usuario</span> usuario) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Generando reporte PDF para: "</span> + usuario.<span class="function">getNombre</span>());
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Usuario</span> usuario = <span class="keyword">new</span> <span class="type">Usuario</span>(<span class="string">"Juan"</span>, <span class="string">"juan@email.com"</span>);
+        
+        <span class="type">UsuarioRepositorio</span> repo = <span class="keyword">new</span> <span class="type">UsuarioRepositorio</span>();
+        <span class="type">EmailService</span> emailSvc = <span class="keyword">new</span> <span class="type">EmailService</span>();
+        <span class="type">ReporteService</span> reporteSvc = <span class="keyword">new</span> <span class="type">ReporteService</span>();
+
+        repo.<span class="function">guardar</span>(usuario);
+        emailSvc.<span class="function">enviar</span>(usuario, <span class="string">"Bienvenido"</span>);
+        reporteSvc.<span class="function">generar</span>(usuario);
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <p><strong>Beneficios:</strong></p>
+                    <p style="color: var(--text-secondary);">Cada clase es más pequeña, fácil de entender, testar y mantener. Los cambios en un dominio no afectan a los otros.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ocp">
+            <div class="principle-card">
+                <h2>
+                    <span class="principle-letter">O</span>
+                    Open/Closed Principle
+                </h2>
+                <span class="badge">Abierto/Cerrado</span>
+                <p>
+                    Las entidades de software (clases, módulos, funciones) deben estar abiertas para extensión pero cerradas para modificación.
+                </p>
+
+                <h3>Problema</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label">MAL</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">CalculadoraMal.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="keyword">class</span> <span class="type">Circulo</span> {
+    <span class="keyword">public double</span> radio;
+    <span class="keyword">public</span> <span class="type">Circulo</span>(<span class="type">double</span> radio) {
+        <span class="keyword">this</span>.radio = radio;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Cuadrado</span> {
+    <span class="keyword">public double</span> lado;
+    <span class="keyword">public</span> <span class="type">Cuadrado</span>(<span class="type">double</span> lado) {
+        <span class="keyword">this</span>.lado = lado;
+    }
+}
+
+<span class="comment">// MAL: Cada vez que agregamos una nueva figura,</span>
+<span class="comment">// debemos modificar esta clase</span>
+<span class="keyword">class</span> <span class="type">CalculadoraArea</span> {
+    <span class="keyword">public double</span> <span class="function">calcular</span>(<span class="type">Object</span> figura) {
+        <span class="keyword">if</span> (figura <span class="keyword">instanceof</span> <span class="type">Circulo</span>) {
+            <span class="keyword">return</span> <span class="type">Math</span>.<span class="function">PI</span> * ((<span class="type">Circulo</span>) figura).radio * ((<span class="type">Circulo</span>) figura).radio;
+        } <span class="keyword">else if</span> (figura <span class="keyword">instanceof</span> <span class="type">Cuadrado</span>) {
+            <span class="keyword">return</span> ((<span class="type">Cuadrado</span>) figura).lado * ((<span class="type">Cuadrado</span>) figura).lado;
+        }
+        <span class="keyword">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="string">"Figura no soportada"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">CalculadoraArea</span> calc = <span class="keyword">new</span> <span class="type">CalculadoraArea</span>();
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Circulo: "</span> + calc.<span class="function">calcular</span>(<span class="keyword">new</span> <span class="type">Circulo</span>(<span class="number">5</span>)));
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Cuadrado: "</span> + calc.<span class="function">calcular</span>(<span class="keyword">new</span> <span class="type">Cuadrado</span>(<span class="number">4</span>)));
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Solución</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label good">BIEN</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">OCPSolucion.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// OCPSolucion.java</span>
+<span class="comment">// Usamos abstracción para cerrar la modificación</span>
+
+<span class="keyword">interface</span> <span class="type">Figura</span> {
+    <span class="type">double</span> <span class="function">calcularArea</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Circulo</span> <span class="keyword">implements</span> <span class="type">Figura</span> {
+    <span class="keyword">private double</span> radio;
+
+    <span class="keyword">public</span> <span class="type">Circulo</span>(<span class="type">double</span> radio) {
+        <span class="keyword">this</span>.radio = radio;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public double</span> <span class="function">calcularArea</span>() {
+        <span class="keyword">return</span> <span class="type">Math</span>.<span class="function">PI</span> * radio * radio;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Cuadrado</span> <span class="keyword">implements</span> <span class="type">Figura</span> {
+    <span class="keyword">private double</span> lado;
+
+    <span class="keyword">public</span> <span class="type">Cuadrado</span>(<span class="type">double</span> lado) {
+        <span class="keyword">this</span>.lado = lado;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public double</span> <span class="function">calcularArea</span>() {
+        <span class="keyword">return</span> lado * lado;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">CalculadoraArea</span> {
+    <span class="keyword">public double</span> <span class="function">calcular</span>(<span class="type">Figura</span> figura) {
+        <span class="keyword">return</span> figura.<span class="function">calcularArea</span>();
+    }
+}
+
+<span class="comment">// Agregar Triangulo es fácil, sin modificar CalculadoraArea</span>
+<span class="keyword">class</span> <span class="type">Triangulo</span> <span class="keyword">implements</span> <span class="type">Figura</span> {
+    <span class="keyword">private double</span> base;
+    <span class="keyword">private double</span> altura;
+
+    <span class="keyword">public</span> <span class="type">Triangulo</span>(<span class="type">double</span> base, <span class="type">double</span> altura) {
+        <span class="keyword">this</span>.base = base;
+        <span class="keyword">this</span>.altura = altura;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public double</span> <span class="function">calcularArea</span>() {
+        <span class="keyword">return</span> (base * altura) / <span class="number">2</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">CalculadoraArea</span> calc = <span class="keyword">new</span> <span class="type">CalculadoraArea</span>();
+
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Circulo (r=5): "</span> + calc.<span class="function">calcular</span>(<span class="keyword">new</span> <span class="type">Circulo</span>(<span class="number">5</span>)));
+        <span class="type">System</span>.<span class="function">println</span>(<span class="string">"Cuadrado (l=4): "</span> + calc.<span class="function">calcular</span>(<span class="keyword">new</span> <span class="type">Cuadrado</span>(<span class="number">4</span>)));
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Triangulo (b=6, a=3): "</span> + calc.<span class="function">calcular</span>(<span class="keyword">new</span> <span class="type">Triangulo</span>(<span class="number">6</span>, <span class="number">3</span>)));
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <p><strong>Clave:</strong> Usa herencia, polimorfismo e interfaces para extender comportamiento sin modificar código existente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lsp">
+            <div class="principle-card">
+                <h2>
+                    <span class="principle-letter">L</span>
+                    Liskov Substitution Principle
+                </h2>
+                <span class="badge">Sustitución de Liskov</span>
+                <p>
+                    Los objetos de una subclase deben poder sustituir objetos de la clase padre sin afectar la correctitud del programa.
+                </p>
+
+                <h3>Problema</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label">MAL</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">AveMal.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="keyword">class</span> <span class="type">Ave</span> {
+    <span class="keyword">public void</span> <span class="function">volar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Volando..."</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Pinguino</span> <span class="keyword">extends</span> <span class="type">Ave</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">volar</span>() {
+        <span class="keyword">throw new</span> <span class="type">RuntimeException</span>(<span class="string">"Los pingüinos no vuelan!"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Ave</span>[] aves = { <span class="keyword">new</span> <span class="type">Ave</span>(), <span class="keyword">new</span> <span class="type">Pinguino</span>() };
+        
+        <span class="keyword">for</span> (<span class="type">Ave</span> ave : aves) {
+            ave.<span class="function">volar</span>(); <span class="comment">// Falla con Pinguino!</span>
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Solución</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label good">BIEN</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">LSPSolucion.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// LSPSolucion.java</span>
+<span class="comment">// Separar en interfaces según capacidades</span>
+
+<span class="keyword">interface</span> <span class="type">Volador</span> {
+    <span class="type">void</span> <span class="function">volar</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Nadador</span> {
+    <span class="type">void</span> <span class="function">nadar</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Ave</span> {
+    <span class="keyword">private</span> <span class="type">String</span> nombre;
+
+    <span class="keyword">public</span> <span class="type">Ave</span>(<span class="type">String</span> nombre) {
+        <span class="keyword">this</span>.nombre = nombre;
+    }
+
+    <span class="keyword">public</span> <span class="type">String</span> <span class="function">getNombre</span>() { <span class="keyword">return</span> nombre; }
+}
+
+<span class="keyword">class</span> <span class="type">Pinguino</span> <span class="keyword">extends</span> <span class="type">Ave</span> <span class="keyword">implements</span> <span class="type">Nadador</span> {
+    <span class="keyword">public</span> <span class="type">Pinguino</span>(<span class="type">String</span> nombre) {
+        <span class="keyword">super</span>(nombre);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">nadar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="function">getNombre</span>() + <span class="string">" nadando..."</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Aguila</span> <span class="keyword">extends</span> <span class="type">Ave</span> <span class="keyword">implements</span> <span class="type">Volador</span> {
+    <span class="keyword">public</span> <span class="type">Aguila</span>(<span class="type">String</span> nombre) {
+        <span class="keyword">super</span>(nombre);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">volar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="function">getNombre</span>() + <span class="string">" volando alto!"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Volador</span>[] voladores = { <span class="keyword">new</span> <span class="type">Aguila</span>(<span class="string">"Aguila Real"</span>) };
+        
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"=== Voladores ==="</span>);
+        <span class="keyword">for</span> (<span class="type">Volador</span> volador : voladores) {
+            volador.<span class="function">volar</span>();
+        }
+
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"=== Nadadores ==="</span>);
+        <span class="type">Nadador</span>[] nadadores = { <span class="keyword">new</span> <span class="type">Pinguino</span>(<span class="string">"Pinguino Emperador"</span>) };
+        <span class="keyword">for</span> (<span class="type">Nadador</span> nadador : nadadores) {
+            nadador.<span class="function">nadar</span>();
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <p><strong>Regla:</strong> Si una subclase no puede cumplir completamente el contrato de su clase padre, no debería heredar de ella. Mejor usar composición o interfaces.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="isp">
+            <div class="principle-card">
+                <h2>
+                    <span class="principle-letter">I</span>
+                    Interface Segregation Principle
+                </h2>
+                <span class="badge">Segregación de Interfaces</span>
+                <p>
+                    Es mejor tener muchas interfaces específicas que una interfaz general. Los clientes no deben depender de métodos que no usan.
+                </p>
+
+                <h3>Problema</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label">MAL</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">MaquinaPesada.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// Interfaz muy grande y acoplada</span>
+<span class="keyword">interface</span> <span class="type">IMaquina</span> {
+    <span class="type">void</span> <span class="function">imprimir</span>();
+    <span class="type">void</span> <span class="function">escanear</span>();
+    <span class="type">void</span> <span class="function">fax</span>();
+    <span class="type">void</span> <span class="function">fotocopiar</span>();
+}
+
+<span class="comment">// Esta clase debe implementar todos los métodos,</span>
+<span class="comment">// aunque solo use imprimir</span>
+<span class="keyword">class</span> <span class="type">ImpresoraSimple</span> <span class="keyword">implements</span> <span class="type">IMaquina</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">imprimir</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Imprimiendo documento"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">escanear</span>() {
+        <span class="comment">// No necesito esto pero debo implementarlo</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">fax</span>() {
+        <span class="comment">// No necesito esto pero debo implementarlo</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">fotocopiar</span>() {
+        <span class="comment">// No necesito esto pero debo implementarlo</span>
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">IMaquina</span> maquina = <span class="keyword">new</span> <span class="type">ImpresoraSimple</span>();
+        maquina.<span class="function">imprimir</span>();
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Solución</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label good">BIEN</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">ISPSolucion.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// ISPSolucion.java</span>
+<span class="comment">// Interfaces pequeñas y cohesivas</span>
+
+<span class="keyword">interface</span> <span class="type">Impresora</span> {
+    <span class="type">void</span> <span class="function">imprimir</span>(<span class="type">String</span> documento);
+}
+
+<span class="keyword">interface</span> <span class="type">Escaner</span> {
+    <span class="type">String</span> <span class="function">escanear</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Fax</span> {
+    <span class="type">void</span> <span class="function">fax</span>(<span class="type">String</span> numero, <span class="type">String</span> contenido);
+}
+
+<span class="comment">// Cada clase solo implementa lo que necesita</span>
+<span class="keyword">class</span> <span class="type">ImpresoraSimple</span> <span class="keyword">implements</span> <span class="type">Impresora</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">imprimir</span>(<span class="type">String</span> documento) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Imprimiendo: "</span> + documento);
+    }
+}
+
+<span class="comment">// Multifuncional implementa múltiples interfaces</span>
+<span class="keyword">class</span> <span class="type">Multifuncional</span> <span class="keyword">implements</span> <span class="type">Impresora</span>, <span class="type">Escaner</span>, <span class="type">Fax</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">imprimir</span>(<span class="type">String</span> documento) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Imprimiendo (MF): "</span> + documento);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="type">String</span> <span class="function">escanear</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Escaneando documento"</span>);
+        <span class="keyword">return</span> <span class="string">"contenido escaneado"</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">fax</span>(<span class="type">String</span> numero, <span class="type">String</span> contenido) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Enviando fax a "</span> + numero);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Impresora</span> simple = <span class="keyword">new</span> <span class="type">ImpresoraSimple</span>();
+        simple.<span class="function">imprimir</span>(<span class="string">"Documento simple"</span>);
+
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"---"</span>);
+
+        <span class="type">Multifuncional</span> mf = <span class="keyword">new</span> <span class="type">Multifuncional</span>();
+        mf.<span class="function">imprimir</span>(<span class="string">"Documento MF"</span>);
+        mf.<span class="function">escanear</span>();
+        mf.<span class="function">fax</span>(<span class="string">"123-456"</span>, <span class="string">"Mensaje fax"</span>);
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <p><strong>Ventaja:</strong> Interfaces pequeñas son más fáciles de implementar, entender y mantener. Los cambios en una parte no afectan a las demás.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dip">
+            <div class="principle-card">
+                <h2>
+                    <span class="principle-letter">D</span>
+                    Dependency Inversion Principle
+                </h2>
+                <span class="badge">Inversión de Dependencias</span>
+                <p>
+                    Las clases de alto nivel no deben depender de clases de bajo nivel. Ambas deben depender de abstracciones. Las abstracciones no deben depender de detalles; los detalles deben depender de abstracciones.
+                </p>
+
+                <h3>Problema</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label">MAL</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">AcoplamientoDirecto.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// Clase de bajo nivel</span>
+<span class="keyword">class</span> <span class="type">MySQLDatabase</span> {
+    <span class="keyword">public void</span> <span class="function">conectar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Conectando a MySQL"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">query</span>(<span class="type">String</span> sql) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"Ejecutando: "</span> + sql);
+    }
+}
+
+<span class="comment">// Clase de alto nivel depende directamente de bajo nivel</span>
+<span class="comment">// Problema: Si cambiamos de MySQL a PostgreSQL,</span>
+<span class="comment">// debemos modificar UsuarioService</span>
+<span class="keyword">class</span> <span class="type">UsuarioService</span> {
+    <span class="keyword">private</span> <span class="type">MySQLDatabase</span> db = <span class="keyword">new</span> <span class="type">MySQLDatabase</span>();
+
+    <span class="keyword">public void</span> <span class="function">guardar</span>(<span class="type">String</span> nombre) {
+        db.<span class="function">conectar</span>();
+        db.<span class="function">query</span>(<span class="string">"INSERT INTO usuarios (nombre) VALUES ('"</span> + nombre + <span class="string">"')"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">UsuarioService</span> service = <span class="keyword">new</span> <span class="type">UsuarioService</span>();
+        service.<span class="function">guardar</span>(<span class="string">"Juan"</span>);
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Solución</h3>
+                <div class="example-block">
+                    <div class="example-header">
+                        <span class="example-label good">BIEN</span>
+                        <span class="example-dot dot-red"></span>
+                        <span class="example-dot dot-yellow"></span>
+                        <span class="example-dot dot-green"></span>
+                        <span class="example-title">DIPSolucion.java</span>
+                    </div>
+                    <div class="example-code">
+<pre><span class="comment">// DIPSolucion.java</span>
+
+<span class="comment">// 1. Crear abstracción (interfaz)</span>
+<span class="keyword">interface</span> <span class="type">IRepositorio</span> {
+    <span class="type">void</span> <span class="function">conectar</span>();
+    <span class="type">void</span> <span class="function">query</span>(<span class="type">String</span> sql);
+}
+
+<span class="comment">// 2. Implementaciones concretas</span>
+<span class="keyword">class</span> <span class="type">MySQLRepositorio</span> <span class="keyword">implements</span> <span class="type">IRepositorio</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">conectar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"MySQL conectado"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">query</span>(<span class="type">String</span> sql) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"MySQL: "</span> + sql);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">PostgreSQLRepositorio</span> <span class="keyword">implements</span> <span class="type">IRepositorio</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">conectar</span>() {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"PostgreSQL conectado"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">query</span>(<span class="type">String</span> sql) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"PostgreSQL: "</span> + sql);
+    }
+}
+
+<span class="comment">// 3. Clase de alto nivel depende de abstracción</span>
+<span class="keyword">class</span> <span class="type">UsuarioService</span> {
+    <span class="keyword">private</span> <span class="type">IRepositorio</span> repositorio;
+
+    <span class="keyword">public</span> <span class="type">UsuarioService</span>(<span class="type">IRepositorio</span> repositorio) {
+        <span class="keyword">this</span>.repositorio = repositorio;
+    }
+
+    <span class="keyword">public void</span> <span class="function">guardar</span>(<span class="type">String</span> nombre) {
+        repositorio.<span class="function">conectar</span>();
+        repositorio.<span class="function">query</span>(<span class="string">"INSERT INTO usuarios (nombre) VALUES ('"</span> + nombre + <span class="string">"')"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"=== Con MySQL ==="</span>);
+        <span class="type">UsuarioService</span> serviceMySQL = <span class="keyword">new</span> <span class="type">UsuarioService</span>(<span class="keyword">new</span> <span class="type">MySQLRepositorio</span>());
+        serviceMySQL.<span class="function">guardar</span>(<span class="string">"Juan"</span>);
+
+        <span class="type">System</span>.<span class="function">out</span>.<span class="function">println</span>(<span class="string">"=== Con PostgreSQL ==="</span>);
+        <span class="type">UsuarioService</span> servicePostgres = <span class="keyword">new</span> <span class="type">UsuarioService</span>(<span class="keyword">new</span> <span class="type">PostgreSQLRepositorio</span>());
+        servicePostgres.<span class="function">guardar</span>(<span class="string">"Maria"</span>);
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <p><strong>Beneficios:</strong> Código más testeable (podemos mockear el repositorio), flexible para cambiar implementaciones, y bajo acoplamiento.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="resumen">
+            <h2 class="section-title">Resumen</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Principio</th>
+                        <th>Descripción Corta</th>
+                        <th>Problema que Resuelve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SRP</strong></td>
+                        <td>Una clase, una responsabilidad</td>
+                        <td>Clases sobrecargadas, difícil de mantener</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OCP</strong></td>
+                        <td>Abierto para extensión, cerrado para modificación</td>
+                        <td>Modificar código existente causa errores</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LSP</strong></td>
+                        <td>Sustitución sin romper el programa</td>
+                        <td>Herencias que no cumplen el contrato</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ISP</strong></td>
+                        <td>Interfaces específicas > interfaces generales</td>
+                        <td>Clases forzadas a implementar métodos inútiles</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DIP</strong></td>
+                        <td>Depender de abstracciones, no concreciones</td>
+                        <td>Alto acoplamiento, difícil de testeable</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="key-point" style="margin-top: 2rem;">
+                <p><strong>Aplicación Práctica:</strong></p>
+                <p style="color: var(--text-secondary);">
+                    No se trata de aplicar todos los principios ciegamente, sino de entender cuándo cada uno mejora tu diseño. El objetivo siempre es código mantenible, testeable y extensible.
+                </p>
+            </div>
+
+            <div class="feature-list" style="margin-top: 1.5rem;">
+                <div class="feature-item">
+                    <div class="feature-icon">1</div>
+                    <div>
+                        <strong>Empieza Simple</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">No sobre-diseñes. Aplica SOLID cuando haya necesidad.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">2</div>
+                    <div>
+                        <strong>Refactoriza Incrementalmente</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Mejora el código existente poco a poco cuando trabajes en él.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">3</div>
+                    <div>
+                        <strong>Prioriza la Abstracción</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">Usa interfaces para definir contratos claros entre módulos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>SOLID Principles - Guía de Referencia (Java)</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular 21 - Guía Completa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #dd0031;
+            --primary-dark: #b8002c;
+            --secondary: #0d47a1;
+            --bg-dark: #1a1a2e;
+            --bg-darker: #16213e;
+            --bg-card: #1f2937;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background: rgba(221, 0, 49, 0.1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .concept-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(221, 0, 49, 0.2);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .example-block {
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .example-header {
+            background: #161b22;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .example-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .example-title {
+            margin-left: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .example-code {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string { color: #a5d6ff; }
+        .function { color: #d2a8ff; }
+        .decorator { color: #79c0ff; }
+        .type { color: #7ee787; }
+        .comment { color: #8b949e; }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .feature-text h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-text p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-darker);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+        }
+
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            nav ul { gap: 1rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">A</div>
+        </div>
+        <h1>Angular 21</h1>
+        <p class="subtitle">La guía completa con conceptos y ejemplos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#novedades">Novedades</a></li>
+            <li><a href="#componentes">Componentes</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#routing">Routing</a></li>
+            <li><a href="#signals">Signals</a></li>
+            <li><a href="#estructural">Directivas</a></li>
+            <li><a href="#http">HTTP</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="novedades">
+            <h2 class="section-title">Novedades en Angular 21</h2>
+            <div class="feature-grid">
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <span class="badge">Nuevo</span>
+                        <h3>Componentes Diferidos</h3>
+                        <p> carga diferida de componentes con la directiva @defer, mejorando significativamente los tiempos de carga inicial.</p>
+                        <div class="example-block">
+                            <div class="example-header">
+                                <span class="example-dot dot-red"></span>
+                                <span class="example-dot dot-yellow"></span>
+                                <span class="example-dot dot-green"></span>
+                                <span class="example-title">ejemplo.component.html</span>
+                            </div>
+                            <div class="example-code">
+<pre>@<span class="decorator">defer</span> (on interaction) {
+  <span class="keyword">&lt;app-chat&gt;</span><span class="keyword">&lt;/app-chat&gt;</span>
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <span class="badge">Nuevo</span>
+                        <h3>Event Signal Inputs</h3>
+                        <p>Los inputs ahora pueden ser funciones que reaccionan a cambios, permitiendo un binding de eventos más intuitivo.</p>
+                        <div class="example-block">
+                            <div class="example-header">
+                                <span class="example-dot dot-red"></span>
+                                <span class="example-dot dot-yellow"></span>
+                                <span class="example-dot dot-green"></span>
+                                <span class="example-title">mi-componente.ts</span>
+                            </div>
+                            <div class="example-code">
+<pre><span class="keyword">import</span> { input, output } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="keyword">export class</span> <span class="type">MiComponente</span> {
+  <span class="function">onClick</span> = <span class="function">output</span>&lt;<span class="type">MouseEvent</span>&gt;();
+  <span class="function">title</span> = <span class="function">input</span>&lt;<span class="type">string</span>&gt;();
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <span class="badge">Nuevo</span>
+                        <h3>Control Flow Syntax</h3>
+                        <p>La nueva sintaxis de control de flujo con @if, @for, @switch es ahora el padrão recomendado.</p>
+                        <div class="example-block">
+                            <div class="example-header">
+                                <span class="example-dot dot-red"></span>
+                                <span class="example-dot dot-yellow"></span>
+                                <span class="example-dot dot-green"></span>
+                                <span class="example-title">ejemplo.component.html</span>
+                            </div>
+                            <div class="example-code">
+<pre>@<span class="keyword">for</span> (item <span class="keyword">of</span> items; track item.id) {
+  <span class="keyword">&lt;p&gt;</span>{{ item.name }}<span class="keyword">&lt;/p&gt;</span>
+} @<span class="keyword">empty</span> {
+  <span class="keyword">&lt;p&gt;</span>No hay elementos<span class="keyword">&lt;/p&gt;</span>
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <span class="badge">Nuevo</span>
+                        <h3>Zoneless Change Detection</h3>
+                        <p>Soporte experimental para aplicaciones sin Zone.js, usando signals para una detección de cambios más eficiente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="componentes">
+            <h2 class="section-title">Componentes</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Los componentes son los bloques fundamentales de una aplicación Angular. Cada componente encapsula su propia lógica, estilos y plantilla.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Componente Básico</h3>
+                    <p>Estructura mínima de un componente standalone en Angular 21.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">mi-componente.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="decorator">@Component</span>({
+  <span class="function">selector</span>: <span class="string">'app-mi-componente'</span>,
+  <span class="function">standalone</span>: <span class="keyword">true</span>,
+  <span class="function">template</span>: <span class="string">`&lt;h1&gt;Hola Mundo&lt;/h1&gt;`</span>,
+  <span class="function">styles</span>: [<span class="string">`h1 { color: #dd0031; }`</span>]
+})
+<span class="keyword">export class</span> <span class="type">MiComponente</span> {}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Con Inputs y Outputs</h3>
+                    <p>Comunicación entre componentes padre e hijo usando input y output.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">tarjeta.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="keyword">input</span>, <span class="keyword">output</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="decorator">@Component</span>({
+  <span class="function">selector</span>: <span class="string">'app-tarjeta'</span>,
+  <span class="function">standalone</span>: <span class="keyword">true</span>,
+  <span class="function">template</span>: <span class="string">`
+    &lt;h2&gt;{{ titulo() }}&lt;/h2&gt;
+    &lt;button (click)="onEliminar.emit(id())"&gt;Eliminar&lt;/button&gt;
+  `</span>
+})
+<span class="keyword">export class</span> <span class="type">TarjetaComponent</span> {
+  <span class="function">titulo</span> = <span class="function">input</span>&lt;<span class="type">string</span>&gt;();
+  <span class="function">id</span> = <span class="function">input</span>&lt;<span class="type">number</span>&gt;();
+  <span class="function">onEliminar</span> = <span class="function">output</span>&lt;<span class="type">number</span>&gt;();
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios">
+            <h2 class="section-title">Servicios</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Los servicios son clases que encapsulan lógica de negocio y se injectan usando el sistema de inyección de dependencias de Angular.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Servicio Básico</h3>
+                    <p>Un servicio injectable que proporciona datos a los componentes.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">datos.service.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Injectable</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="decorator">@Injectable</span>({
+  <span class="function">providedIn</span>: <span class="string">'root'</span>
+})
+<span class="keyword">export class</span> <span class="type">DatosService</span> {
+  <span class="function">obtenerDatos</span>() {
+    <span class="keyword">return</span> [{ id: <span class="number">1</span>, nombre: <span class="string">'Angular'</span> }];
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Uso en Componente</h3>
+                    <p>Inyección del servicio en el constructor del componente.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">lista.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="keyword">inject</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+<span class="keyword">import</span> { <span class="type">DatosService</span> } <span class="keyword">from</span> <span class="string">'./datos.service'</span>;
+
+<span class="decorator">@Component</span>({
+  <span class="function">selector</span>: <span class="string">'app-lista'</span>,
+  <span class="function">standalone</span>: <span class="keyword">true</span>
+})
+<span class="keyword">export class</span> <span class="type">ListaComponent</span> {
+  <span class="keyword">private</span> <span class="function">datosService</span> = <span class="function">inject</span>(<span class="type">DatosService</span>);
+  datos = <span class="keyword">this</span>.<span class="function">datosService</span>.<span class="function">obtenerDatos</span>();
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="routing">
+            <h2 class="section-title">Routing</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                El enrutamiento permite navegación entre vistas sin recargar la página.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Configuración de Rutas</h3>
+                    <p>Definición de rutas con loadComponent para código splitting automático.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">app.routes.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Routes</span> } <span class="keyword">from</span> <span class="string">'@angular/router'</span>;
+
+<span class="keyword">export const</span> routes: <span class="type">Routes</span> = [
+  { <span class="function">path</span>: <span class="string">''</span>, <span class="function">loadComponent</span>: () => <span class="function">import</span>(<span class="string">'./home'</span>) },
+  { <span class="function">path</span>: <span class="string">'productos'</span>, <span class="function">loadComponent</span>: () => <span class="function">import</span>(<span class="string">'./productos'</span>) },
+  { <span class="function">path</span>: <span class="string">'productos/:id'</span>, <span class="function">loadComponent</span>: () => <span class="function">import</span>(<span class="string">'./detalle'</span>) },
+  { <span class="function">path</span>: <span class="string">'**'</span>, <span class="function">redirectTo</span>: <span class="string">''</span> }
+];</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Navegación con RouterLink</h3>
+                    <p>Enlace declarativo a rutas en la plantilla.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">nav.component.html</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">&lt;nav&gt;</span>
+  <span class="keyword">&lt;a</span> <span class="function">routerLink</span>=<span class="string">"/"</span> <span class="function">routerLinkActive</span>=<span class="string">"active"</span><span class="keyword">&gt;</span>
+    Inicio
+  <span class="keyword">&lt;/a&gt;</span>
+  <span class="keyword">&lt;a</span> <span class="function">routerLink</span>=<span class="string">"/productos"</span> <span class="function">routerLinkActive</span>=<span class="string">"active"</span><span class="keyword">&gt;</span>
+    Productos
+  <span class="keyword">&lt;/a&gt;</span>
+<span class="keyword">&lt;/nav&gt;</span>
+<span class="keyword">&lt;router-outlet&gt;&lt;/router-outlet&gt;</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Obtención de Parámetros</h3>
+                    <p>Acceso a parámetros de ruta con input signals.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">detalle.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="keyword">inject</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+<span class="keyword">import</span> { <span class="type">ActivatedRoute</span> } <span class="keyword">from</span> <span class="string">'@angular/router'</span>;
+
+<span class="decorator">@Component</span>({
+  <span class="function">standalone</span>: <span class="keyword">true</span>
+})
+<span class="keyword">export class</span> <span class="type">DetalleComponent</span> {
+  <span class="keyword">private</span> <span class="function">route</span> = <span class="function">inject</span>(<span class="type">ActivatedRoute</span>);
+  <span class="function">ngOnInit</span>() {
+    <span class="keyword">const</span> id = <span class="keyword">this</span>.<span class="function">route</span>.<span class="function">snapshot</span>.<span class="function">paramMap</span>.<span class="function">get</span>(<span class="string">'id'</span>);
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="signals">
+            <h2 class="section-title">Signals</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Los signals son una nueva forma de manejar el estado reactivo en Angular, ofreciendo mejor rendimiento y deducción automática de dependencias.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Signal Básico</h3>
+                    <p>Creación y uso de signals para estado reactivo.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">contador.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="function">signal</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="decorator">@Component</span>({
+  <span class="function">standalone</span>: <span class="keyword">true</span>,
+  <span class="function">template</span>: <span class="string">`
+    &lt;button (click)="incrementar()"&gt;Contador: {{ contador() }}&lt;/button&gt;
+  `</span>
+})
+<span class="keyword">export class</span> <span class="type">ContadorComponent</span> {
+  <span class="function">contador</span> = <span class="function">signal</span>(<span class="number">0</span>);
+
+  <span class="function">incrementar</span>() {
+    <span class="keyword">this</span>.<span class="function">contador</span>.<span class="function">update</span>(v => v + <span class="number">1</span>);
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Computed Signals</h3>
+                    <p>Señales derivadas que se actualizan automáticamente cuando cambian sus dependencias.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">tienda.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="function">signal</span>, <span class="function">computed</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="keyword">export class</span> <span class="type">TiendaComponent</span> {
+  <span class="function">precio</span> = <span class="function">signal</span>(<span class="number">100</span>);
+  <span class="function">cantidad</span> = <span class="function">signal</span>(<span class="number">2</span>);
+  
+  <span class="function">total</span> = <span class="function">computed</span>(() => <span class="keyword">this</span>.<span class="function">precio</span>() * <span class="keyword">this</span>.<span class="function">cantidad</span>());
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Efectos (Effects)</h3>
+                    <p>Ejecutar código side-effect cuando las señales cambian.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">efecto.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="function">signal</span>, <span class="function">effect</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="keyword">export class</span> <span class="type">EfectoComponent</span> {
+  <span class="function">usuario</span> = <span class="function">signal</span>&lt;<span class="type">string</span>|<span class="keyword">null</span>&gt;(<span class="keyword">null</span>);
+
+  <span class="function">constructor</span>() {
+    <span class="function">effect</span>(() => {
+      <span class="function">console.log</span>(<span class="string">'Usuario changed:'</span>, <span class="keyword">this</span>.<span class="function">usuario</span>());
+    });
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="estructural">
+            <h2 class="section-title">Directivas Estructurales</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Las directivas estructurales manipulan el DOM añadiendo o removiendo elementos.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>@if - Condicional</h3>
+                    <p>Renderizado condicional de contenido.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">ejemplo.component.html</span>
+                        </div>
+                        <div class="example-code">
+<pre>@<span class="keyword">if</span> (usuario) {
+  <span class="keyword">&lt;p&gt;</span>Hola {{ usuario.nombre }}<span class="keyword">&lt;/p&gt;</span>
+} @<span class="keyword">else if</span> (cargando) {
+  <span class="keyword">&lt;p&gt;</span>Cargando...<span class="keyword">&lt;/p&gt;</span>
+} @<span class="keyword">else</span> {
+  <span class="keyword">&lt;p&gt;</span>No hay usuario<span class="keyword">&lt;/p&gt;</span>
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>@for - Iteración</h3>
+                    <p>Iteración sobre colecciones con track para performance.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">ejemplo.component.html</span>
+                        </div>
+                        <div class="example-code">
+<pre>@<span class="keyword">for</span> (producto <span class="keyword">of</span> productos; track producto.id) {
+  <span class="keyword">&lt;li&gt;</span>
+    {{ producto.nombre }} - {{ producto.precio | currency }}
+  <span class="keyword">&lt;/li&gt;</span>
+} @<span class="keyword">empty</span> {
+  <span class="keyword">&lt;li&gt;</span>No hay productos disponibles<span class="keyword">&lt;/li&gt;</span>
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>@switch - Selección</h3>
+                    <p>Selección entre múltiples casos.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">ejemplo.component.html</span>
+                        </div>
+                        <div class="example-code">
+<pre>@<span class="keyword">switch</span> (estado) {
+  @<span class="keyword">case</span> (<span class="string">'activo'</span>) {
+    <span class="keyword">&lt;span</span> <span class="function">class</span>=<span class="string">"badge success"</span><span class="keyword">&gt;</span>Activo<span class="keyword">&lt;/span&gt;</span>
+  }
+  @<span class="keyword">case</span> (<span class="string">'pendiente'</span>) {
+    <span class="keyword">&lt;span</span> <span class="function">class</span>=<span class="string">"badge warning"</span><span class="keyword">&gt;</span>Pendiente<span class="keyword">&lt;/span&gt;</span>
+  }
+  @<span class="keyword">default</span> {
+    <span class="keyword">&lt;span</span> <span class="function">class</span>=<span class="string">"badge"</span><span class="keyword">&gt;</span>Desconocido<span class="keyword">&lt;/span&gt;</span>
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="http">
+            <h2 class="section-title">HTTP Client</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Angular proporciona HttpClient para realizar peticiones HTTP a APIs REST.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Configuración</h3>
+                    <p>Proveer HttpClient en la aplicación.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">app.config.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">ApplicationConfig</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+<span class="keyword">import</span> { <span class="type">provideHttpClient</span> } <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;
+
+<span class="keyword">export const</span> appConfig: <span class="type">ApplicationConfig</span> = {
+  <span class="function">providers</span>: [<span class="function">provideHttpClient</span>()]
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Peticiones GET</h3>
+                    <p>Obtener datos de una API con observables y signals.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">api.service.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="keyword">import</span> { <span class="type">Component</span>, <span class="function">inject</span>, <span class="function">signal</span> } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+<span class="keyword">import</span> { <span class="type">HttpClient</span> } <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;
+
+<span class="keyword">export class</span> <span class="type">ApiService</span> {
+  <span class="keyword">private</span> <span class="function">http</span> = <span class="function">inject</span>(<span class="type">HttpClient</span>);
+  
+  <span class="function">obtenerUsuarios</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.<span class="function">http</span>.<span class="function">get</span>&lt;<span class="type">User[]</span>&gt;(<span class="string">'https://api.ejemplo.com/users'</span>);
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>POST con Tipado</h3>
+                    <p>Enviar datos a una API con tipado completo.</p>
+                    <div class="example-block">
+                        <div class="example-header">
+                            <span class="example-dot dot-red"></span>
+                            <span class="example-dot dot-yellow"></span>
+                            <span class="example-dot dot-green"></span>
+                            <span class="example-title">formulario.component.ts</span>
+                        </div>
+                        <div class="example-code">
+<pre><span class="function">crearUsuario</span>(datos: <span class="type">NuevoUsuario</span>) {
+  <span class="keyword">return</span> <span class="keyword">this</span>.<span class="function">http</span>.<span class="function">post</span>&lt;<span class="type">Usuario</span>&gt;(
+    <span class="string">'https://api.ejemplo.com/users'</span>,
+    datos
+  );
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Comparación de Síntaxis</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Sintaxis Antigua</th>
+                        <th>Sintaxis Nueva (@)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Condicional</td>
+                        <td>*ngIf="cond; else elseBlock"</td>
+                        <td>@if (cond) { } @else { }</td>
+                    </tr>
+                    <tr>
+                        <td>Iteración</td>
+                        <td>*ngFor="let item of items"</td>
+                        <td>@for (item of items; track item.id) { }</td>
+                    </tr>
+                    <tr>
+                        <td>Switch</td>
+                        <td>[ngSwitch]="valor"</td>
+                        <td>@switch (valor) { @case { } @default { } }</td>
+                    </tr>
+                    <tr>
+                        <td>Input</td>
+                        <td>@Input() nombre: string</td>
+                        <td>nombre = input&lt;string&gt;()</td>
+                    </tr>
+                    <tr>
+                        <td>Output</td>
+                        <td>@Output() evento = new EventEmitter()</td>
+                        <td>evento = output&lt;void&gt;()</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>Angular 21 - Guía de Referencia | Creado para aprender</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
