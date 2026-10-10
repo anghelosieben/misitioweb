@@ -3,359 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día de la Mujer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>¡Feliz Día de la Mujer, Olivia! 🌸</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffd1dc 50%, #f472b6 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #ff9a9e;
-            font-family: 'Poppins', sans-serif;
-            overflow-y: auto;
-            padding: 20px;
+            overflow-x: hidden;
         }
 
-        /* body::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 182, 193, 0.3) 0%, transparent 30%);
-            animation: floatBackground 20s ease-in-out infinite;
-        } */
+        .font-serif-title {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
 
-        /* @keyframes floatBackground {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(5deg); }
-            66% { transform: translate(-20px, 20px) rotate(-5deg); }
-        } */
+        .font-cursive {
+            font-family: 'Dancing Script', cursive;
+        }
 
-        .card {
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 25px 50px -12px rgba(216, 27, 96, 0.25);
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope {
             position: relative;
-            width: 90%;
-            max-width: 500px;
-            padding: 50px 40px 60px;
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.15),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.3),
-                0 0 100px rgba(255, 182, 193, 0.4);
-            text-align: center;
-            animation: cardEntry 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(60px) scale(0.9);
-        }
-
-        @media (max-width: 600px) {
-            .card {
-                width: 90%;
-                padding: 40px 30px 50px;
-                border-radius: 25px;
-            }
-            .icon {
-                font-size: 60px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            .subtitle {
-                font-size: 15px;
-            }
-            .btn {
-                padding: 14px 35px;
-                font-size: 14px;
-            }
-            .special-message p {
-                font-size: 14px;
-            }
-            .special-message .message-content {
-                padding: 20px;
-            }
-            .special-message.show {
-                max-height: 400px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .card {
-                width: 92%;
-                padding: 30px 20px 40px;
-                border-radius: 20px;
-            }
-            .icon {
-                font-size: 50px;
-            }
-            h1 {
-                font-size: 24px;
-            }
-            .subtitle {
-                font-size: 13px;
-            }
-            .btn {
-                padding: 12px 25px;
-                font-size: 13px;
-            }
-            .special-message p {
-                font-size: 13px;
-            }
-            .special-message.show {
-                max-height: 450px;
-            }
-            .decorative-flowers {
-                font-size: 24px;
-            }
-            .cat {
-                font-size: 22px;
-            }
-        }
-
-        @keyframes cardEntry {
-            0% {
-                opacity: 0;
-                transform: translateY(60px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ff9a9e, #fecfef, #ff9a9e, #fff, #ff9a9e);
-            background-size: 400% 400%;
-            border-radius: 32px;
-            z-index: -1;
-            animation: borderGlow 4s ease infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-            animation: iconFloat 3s ease-in-out infinite;
-            display: inline-block;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: #c44569;
-            margin-bottom: 15px;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            color: #8b5a6b;
-            font-size: 16px;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        .btn {
-            position: relative;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #fff 0%, #fff5f5 100%);
-            border: none;
-            border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            color: #d4727a;
+            width: 320px;
+            height: 220px;
+            background-color: #f472b6;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(216, 27, 96, 0.35);
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
-            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .btn::before {
-            content: '';
+        @media (min-width: 640px) {
+            .envelope {
+                width: 440px;
+                height: 290px;
+            }
+        }
+
+        .envelope:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .envelope-flap {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.4);
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        .special-message {
-            margin-top: 25px;
-            background: rgba(255, 182, 193, 0.3);
-            border-radius: 20px;
-            border: 1px solid rgba(196, 69, 105, 0.2);
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 0.5s ease, max-height 0.5s ease;
-        }
-
-        .special-message.show {
-            opacity: 1;
-            max-height: 500px;
-        }
-
-        .special-message .message-content {
-            padding: 25px;
-        }
-
-        .special-message p {
-            color: #c44569;
-            font-size: 15px;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        .special-message .heart {
-            color: #ff4d6d;
-            font-size: 24px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .decorative-flowers {
-            position: absolute;
-            font-size: 30px;
-            opacity: 0.6;
-            animation: flowerFloat 4s ease-in-out infinite;
-        }
-
-        .flower1 { top: 8%; left: 5%; animation-delay: 0s; }
-        .flower2 { top: 12%; right: 8%; animation-delay: 1s; }
-        .flower3 { bottom: 18%; left: 5%; animation-delay: 2s; }
-        .flower4 { bottom: 12%; right: 5%; animation-delay: 0.5s; }
-        .flower5 { top: 5%; left: 40%; animation-delay: 1.5s; }
-        .flower6 { bottom: 5%; right: 35%; animation-delay: 0.8s; }
-
-        .cat {
-            position: absolute;
-            font-size: 28px;
-            opacity: 0.7;
-            animation: flowerFloat 3.5s ease-in-out infinite;
-        }
-
-        .cat1 { top: 15%; left: 20%; animation-delay: 0.3s; }
-        .cat2 { bottom: 18%; right: 18%; animation-delay: 1.2s; }
-
-        @keyframes flowerFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(10deg); }
-        }
-
-        .sparkles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
-            pointer-events: none;
-            overflow: hidden;
+            width: 100%;
+            height: 52%;
+            background-color: #e11d48;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
         }
 
-        .sparkle {
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-pocket {
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            animation: sparkle 2s ease-in-out infinite;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f472b6;
+            clip-path: polygon(0 100%, 50% 38%, 100% 100%, 0 100%, 0 0, 100% 0, 100% 100%);
+            z-index: 2;
+            border-radius: 16px;
         }
 
-        .sparkle:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 30%; right: 20%; animation-delay: 0.5s; }
-        .sparkle:nth-child(3) { bottom: 40%; left: 10%; animation-delay: 1s; }
-        .sparkle:nth-child(4) { bottom: 25%; right: 15%; animation-delay: 1.5s; }
+        .seal-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            transition: all 0.3s ease;
+        }
 
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+        /* Floating Petals Canvas */
+        #petals-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.85; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.06); }
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff0f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6;
+            border-radius: 10px;
         }
     </style>
 </head>
-<body>
-    <div class="decorative-flowers flower1">🌸</div>
-    <div class="decorative-flowers flower2">🌺</div>
-    <div class="decorative-flowers flower3">🌷</div>
-    <div class="decorative-flowers flower4">🌹</div>
-    <div class="decorative-flowers flower5">🌻</div>
-    <div class="decorative-flowers flower6">🌺</div>
-    <div class="cat cat1">🐱</div>
-    <div class="cat cat2">🐱</div>
+<body class="flex flex-col items-center justify-between p-4 sm:p-6 text-slate-800 selection:bg-pink-300 selection:text-pink-900">
 
-    <div class="card">
-        <div class="sparkles">
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
+    <!-- Canvas para lluvia continua de pétalos -->
+    <canvas id="petals-canvas"></canvas>
+
+    <!-- Header / Navigation Bar (Sin Controles de Audio) -->
+    <header class="w-full max-w-2xl flex justify-between items-center py-3 px-6 glass-card rounded-full mb-6 z-20 shadow-sm">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl animate-bounce">🌸</span>
+            <span class="font-bold text-pink-800 tracking-wide text-sm sm:text-base">Para Olivia</span>
         </div>
-        
-        <div class="icon">💐</div>
-        <h1>8 de Marzo</h1>
-        <p class="subtitle">Día Internacional de la Mujer</p>
-        
-        <button class="btn" onclick="showMessage()">Descubrir Mensaje</button>
-        
-        <div class="special-message" id="message">
-            <div class="message-content">
-                <span class="heart">❤️</span>
-                <p>"¡Feliz Día de la Mujer, Olivia! 🌸 Que todos tus planes y sueños se cumplan siempre 🐱✨🐾"</p>
-                <p>El éxito no es el destino, sino la constancia de avanzar un paso a la vez. 🐾, cada esfuerzo tuyo construye tu futuro. ¡Sigue adelante con calma de capibara y curiosidad de gato! 🍀🐱✨</p>
+        <div class="flex items-center space-x-2">
+            <!-- Botón Lluvia de Pétalos Extra -->
+            <button onclick="triggerPetalBurst()" class="px-4 py-1.5 rounded-full bg-pink-500 hover:bg-pink-600 text-white text-xs sm:text-sm font-medium transition flex items-center space-x-1.5 shadow-md hover:shadow-lg active:scale-95">
+                <span>🌹</span>
+                <span>Lluvia de Pétalos</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-xl flex flex-col items-center justify-center my-auto z-20">
+
+        <!-- Envelope View (Estado Inicial) -->
+        <div id="envelope-container" class="envelope-wrapper flex flex-col items-center my-8">
+            <div id="envelope" class="envelope flex items-center justify-center" onclick="openCard()">
+                <div class="envelope-flap"></div>
+                <div class="envelope-pocket"></div>
+                
+                <!-- Sello interactivo para abrir -->
+                <button class="seal-btn bg-pink-600 hover:bg-pink-700 text-white rounded-full p-4 sm:p-5 shadow-2xl flex flex-col items-center justify-center border-4 border-white animate-glow">
+                    <span class="text-3xl">💌</span>
+                    <span class="text-[10px] uppercase tracking-widest font-bold mt-1">Abrir</span>
+                </button>
+
+                <div class="absolute bottom-5 text-center text-pink-100 text-xs tracking-wider z-0 opacity-90">
+                    Un detalle especial hecho con mucho cariño ✨
+                </div>
+            </div>
+            <p class="mt-6 text-pink-900 font-semibold text-sm sm:text-base animate-pulse text-center bg-white/60 px-4 py-2 rounded-full backdrop-blur-sm shadow-sm">
+                ✨ Haz clic en la carta para abrir tu sorpresa ✨
+            </p>
+        </div>
+
+        <!-- Card Body View (Oculta al inicio, se revela al abrir la carta) -->
+        <div id="card-content" class="hidden w-full glass-card rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden transition-all duration-700 transform scale-95 opacity-0">
+            
+            <!-- Adornos flotantes de esquinas -->
+            <div class="absolute -top-4 -left-4 text-4xl opacity-30 select-none animate-float">🌺</div>
+            <div class="absolute -top-4 -right-4 text-4xl opacity-30 select-none animate-float" style="animation-delay: 1.5s;">🌸</div>
+
+            <!-- Encabezado Principal con Tipografía Elegante -->
+            <div class="mb-6">
+                <span class="inline-block bg-pink-100/90 text-pink-800 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3 border border-pink-200">
+                    Día Internacional de la Mujer
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-serif-title font-bold text-slate-800 leading-tight">
+                    ¡Feliz Día de la Mujer, <br/>
+                    <span class="text-pink-600 font-cursive text-5xl sm:text-6xl italic">Olivia! 🌸</span>
+                </h1>
+            </div>
+
+            <!-- Divisor elegante con Emojis temáticos -->
+            <div class="flex items-center justify-center space-x-2 my-4">
+                <div class="h-px w-12 bg-pink-300"></div>
+                <span class="text-pink-500 text-base">✨ 🌹 🐾 🐱 ✨</span>
+                <div class="h-px w-12 bg-pink-300"></div>
+            </div>
+
+            <!-- Mensaje Personalizado Dedicado -->
+            <div class="space-y-4 my-6 text-slate-700 text-base sm:text-lg leading-relaxed font-normal">
+                <p class="font-serif-title italic text-pink-900 font-semibold text-lg sm:text-xl">
+                    "Deseo de corazón que todo te vaya excelente en cada paso que des. Que nunca dejes de brillar, sin importar en qué lugar te encuentres, y que sigas siempre con fuerza y determinación tu propio camino."
+                </p>
+                
+                <div class="p-5 bg-pink-50/90 rounded-2xl border border-pink-200/80 shadow-inner">
+                    <p class="text-sm sm:text-base text-slate-700 leading-relaxed font-medium">
+                        El éxito no es el destino, sino la constancia de avanzar un paso a la vez: cada esfuerzo tuyo construye el hermoso futuro que mereces.
+                    </p>
+                    <p class="mt-3 text-pink-700 font-bold text-sm sm:text-base flex items-center justify-center gap-1">
+                        ¡Sigue adelante con la calma de una capibara y la curiosidad de un gato! 🍀🐱✨🐾
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ilustración SVG Vectorial de Capibara con Rosa -->
+            <div class="my-6 py-2 flex justify-center items-center">
+                <div class="relative group">
+                    <div class="absolute -inset-2 bg-pink-200 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition duration-500"></div>
+                    <svg class="relative w-48 h-48 sm:w-56 sm:h-56 filter drop-shadow-md hover:scale-105 transition-transform duration-300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Tallo de la Rosa -->
+                        <path d="M110 260 C 130 240, 190 190, 230 160" stroke="#4d7c0f" stroke-width="6" stroke-linecap="round"/>
+                        <path d="M150 220 C 170 230, 210 220, 250 205" stroke="#4d7c0f" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M185 190 C 205 180, 230 165, 235 155" stroke="#4d7c0f" stroke-width="4" stroke-linecap="round"/>
+
+                        <!-- Hojas de la Rosa -->
+                        <path d="M190 215 C 220 230, 245 220, 250 205 C 230 195, 200 200, 190 215 Z" fill="#84cc16" stroke="#15803d" stroke-width="4" stroke-linejoin="round"/>
+                        <path d="M165 180 C 175 160, 195 155, 210 160 C 200 175, 180 185, 165 180 Z" fill="#84cc16" stroke="#15803d" stroke-width="4" stroke-linejoin="round"/>
+
+                        <!-- Sépalo bajo la flor -->
+                        <path d="M210 135 L225 150 L240 145 L250 125 L230 130 Z" fill="#65a30d" stroke="#15803d" stroke-width="4" stroke-linejoin="round"/>
+
+                        <!-- Flor de la Rosa Rosa -->
+                        <path d="M220 130 C 205 110, 215 70, 245 65 C 275 60, 290 95, 275 125 C 260 145, 235 145, 220 130 Z" fill="#f472b6" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        <path d="M230 115 C 220 95, 235 75, 255 75 C 275 75, 280 100, 265 118 C 250 130, 238 125, 230 115 Z" fill="#fbcfe8" stroke="#1e293b" stroke-width="4"/>
+                        <path d="M245 85 C 255 80, 265 88, 260 98 C 255 108, 245 105, 242 98 C 240 92, 248 88, 252 90" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
+
+                        <!-- Cuerpo de la Capibara -->
+                        <path d="M75 125 C 60 70, 105 40, 145 45 C 185 50, 195 75, 185 130 C 180 160, 190 200, 175 220 C 150 245, 100 245, 60 225 C 30 200, 30 145, 75 125 Z" fill="#d97706" stroke="#1e293b" stroke-width="6" stroke-linejoin="round"/>
+                        
+                        <!-- Orejas -->
+                        <path d="M72 45 C 65 30, 85 25, 92 40 Z" fill="#b45309" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        <path d="M102 42 C 95 28, 115 22, 122 38 Z" fill="#d97706" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        
+                        <!-- Hocico -->
+                        <path d="M150 70 C 185 70, 190 155, 155 155 C 130 155, 135 70, 150 70 Z" fill="#92400e" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        <path d="M175 90 C 185 105, 175 120, 170 120" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/>
+
+                        <!-- Ojito dormilón/feliz -->
+                        <path d="M105 82 C 115 72, 125 72, 132 82" stroke="#1e293b" stroke-width="6" stroke-linecap="round" fill="none"/>
+
+                        <!-- Sonrisa -->
+                        <path d="M112 160 C 130 168, 150 165, 162 155" stroke="#1e293b" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+                        <!-- Patitas -->
+                        <path d="M100 215 C 90 225, 105 240, 120 230 C 130 220, 120 205, 100 215 Z" fill="#92400e" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        <path d="M128 212 C 120 222, 135 238, 150 228 C 160 218, 148 202, 128 212 Z" fill="#92400e" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        <path d="M160 205 C 150 218, 165 232, 180 222 C 188 212, 175 198, 160 205 Z" fill="#78350f" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Botones Interactivos -->
+            <div class="pt-2 flex flex-wrap justify-center gap-3">
+                <!-- Botón Sorpresa Amor -->
+                <button onclick="triggerPetEffect(event)" class="px-5 py-2.5 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-800 text-xs sm:text-sm font-semibold transition active:scale-95 flex items-center space-x-2 border border-pink-300 shadow-sm">
+                    <span>🐾 Feliz Dia, Feliz Dia!! 🌹</span>
+                </button>
+
+                <!-- Botón Copiar Mensaje 
+                <button onclick="copyMessage()" class="px-5 py-2.5 rounded-full bg-pink-600 hover:bg-pink-700 text-white text-xs sm:text-sm font-semibold transition shadow-md hover:shadow-lg active:scale-95 flex items-center space-x-2">
+                    <span>📋 Copiar Dedicatoria</span>
+                </button>-->
+            </div>
+
+            <!-- Toast / Notificación al Copiar -->
+            <div id="toast" class="opacity-0 transition-opacity duration-300 fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs sm:text-sm py-2 px-5 rounded-full shadow-2xl pointer-events-none z-50">
+                ¡Mensaje copiado con éxito! 🌸
+            </div>
+
+            <!-- Ilustración Floral inferior SVG -->
+            <div class="mt-8 pt-4 border-t border-pink-200/60">
+                <svg class="w-full h-20 sm:h-24 mx-auto" viewBox="0 0 500 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M80 100 C100 60, 90 30, 70 10 C110 30, 120 60, 110 100 Z" fill="#a7f3d0" opacity="0.8"/>
+                    <path d="M200 100 C180 50, 210 20, 190 0 C220 30, 230 60, 220 100 Z" fill="#6ee7b7" opacity="0.7"/>
+                    <path d="M360 100 C340 60, 370 25, 350 5 C380 35, 390 65, 380 100 Z" fill="#a7f3d0" opacity="0.8"/>
+                    
+                    <path d="M90 100 Q95 50 100 25" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M210 100 Q205 40 200 15" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M330 100 Q335 50 340 20" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M420 100 Q415 60 410 30" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+
+                    <g transform="translate(100, 25)">
+                        <path d="M-12 0 C-20 -15, 0 -28, 0 -28 C0 -28, 20 -15, 12 0 C8 8, -8 8, -12 0 Z" fill="#f472b6"/>
+                    </g>
+                    <g transform="translate(200, 15)">
+                        <circle cx="0" cy="0" r="18" fill="#fb7185"/>
+                        <circle cx="-2" cy="-2" r="12" fill="#f472b6"/>
+                        <circle cx="-4" cy="-4" r="7" fill="#fbcfe8"/>
+                    </g>
+                    <g transform="translate(340, 20)">
+                        <path d="M-15 0 C-22 -18, 0 -30, 0 -30 C0 -30, 22 -18, 15 0 Z" fill="#fbcfe8"/>
+                        <path d="M-8 0 C-12 -12, 0 -20, 0 -20 C0 -20, 12 -12, 8 0 Z" fill="#f472b6" opacity="0.8"/>
+                    </g>
+                    <g transform="translate(410, 30)">
+                        <circle cx="0" cy="0" r="14" fill="#f43f5e"/>
+                        <circle cx="-2" cy="-2" r="8" fill="#fda4af"/>
+                    </g>
+                </svg>
             </div>
         </div>
-    </div>
+    </main>
 
+    <!-- Footer -->
+    <footer class="mt-6 text-center text-xs text-pink-900/80 z-20 font-medium">
+        Diseñado con cariño para celebrar a Olivia ✨
+    </footer>
+
+    <!-- Scripts (Sin Código de Audio) -->
     <script>
-        function showMessage() {
-            const message = document.getElementById('message');
-            message.classList.toggle('show');
+        // Abrir la carta con animación
+        function openCard() {
+            const envelope = document.getElementById('envelope');
+            const envelopeContainer = document.getElementById('envelope-container');
+            const cardContent = document.getElementById('card-content');
+
+            envelope.classList.add('open');
+
+            // Lanzar ráfaga de confeti de pétalos
+            triggerPetalBurst();
+
+            setTimeout(() => {
+                envelopeContainer.style.display = 'none';
+                cardContent.classList.remove('hidden');
+                setTimeout(() => {
+                    cardContent.classList.remove('scale-95', 'opacity-0');
+                    cardContent.classList.add('scale-100', 'opacity-100');
+                }, 50);
+            }, 700);
         }
+
+        // Lluvia de confeti rosa/flores
+        function triggerPetalBurst() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 55,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#f472b6', '#fbcfe8', '#fda4af', '#f43f5e', '#ffffff', '#e11d48'],
+                    shapes: ['circle'],
+                    scalar: 1.2
+                });
+            }
+        }
+
+        // Animación de emojis al hacer clic
+        function triggerPetEffect(e) {
+            const emojis = ['🦫', '🌹', '🐾', '🐱', '✨', '🌸', '💖'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            const el = document.createElement('div');
+            el.textContent = randomEmoji;
+            el.className = 'fixed text-3xl pointer-events-none z-50 animate-bounce';
+            el.style.left = `${e.clientX - 15}px`;
+            el.style.top = `${e.clientY - 30}px`;
+
+            document.body.appendChild(el);
+
+            setTimeout(() => {
+                el.style.transition = 'all 1.2s ease-out';
+                el.style.transform = 'translateY(-90px)';
+                el.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => {
+                el.remove();
+            }, 1250);
+
+            triggerPetalBurst();
+        }
+
+        // Copiar texto al portapapeles
+        function copyMessage() {
+            const textToCopy = `¡Feliz Día de la Mujer, Olivia! 🌸
+Deseo de corazón que todo te vaya excelente en cada paso que des. Que nunca dejes de brillar, sin importar en qué lugar te encuentres, y que sigas siempre con fuerza y determinación tu propio camino.
+
+El éxito no es el destino, sino la constancia de avanzar un paso a la vez: cada esfuerzo tuyo construye tu futuro. ¡Sigue adelante con la calma de una capibara y la curiosidad de un gato! 🍀🐱✨🐾`;
+
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            // Mostrar notificación Toast
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
+
+        // Sistema de animación de pétalos flotantes en fondo (HTML5 Canvas)
+        const canvas = document.getElementById('petals-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petals = [];
+        const petalColors = ['#f472b6', '#fbcfe8', '#fda4af', '#f43f5e', '#e11d48'];
+
+        class Petal {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 1.4 + 0.7;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.angle = Math.random() * 360;
+                this.spin = Math.random() * 2 - 1;
+                this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+                this.opacity = Math.random() * 0.6 + 0.35;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * 0.01) + this.speedX;
+                this.angle += this.spin;
+
+                if (this.y > canvas.height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.angle * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+
+                // Dibujar forma de pétalo de rosa
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size, -this.size, -this.size, this.size, 0, this.size * 1.5);
+                ctx.bezierCurveTo(this.size, this.size, this.size, -this.size, 0, 0);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        // Crear pétalos iniciales
+        for (let i = 0; i < 35; i++) {
+            const p = new Petal();
+            p.y = Math.random() * canvas.height;
+            petals.push(p);
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(petal => {
+                petal.update();
+                petal.draw();
+            });
+            requestAnimationFrame(animatePetals);
+        }
+
+        window.onload = function() {
+            animatePetals();
+        };
     </script>
 </body>
 </html>
